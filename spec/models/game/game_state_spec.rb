@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Game::GameState do
-  it 'can generate reinforcements' do
+  pending it 'can generate reinforcements' do
     ubermouse = Player.new(name: 'ubermouse')
     copenhagen_infantry = Unit.new(id: 1, type: 'infantry', attack: 1, defense: 1)
     copenhagen = City.new(name: 'Copenhagen', latitude: 1, longitude: 2)
