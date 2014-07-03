@@ -31,6 +31,8 @@ gem 'spring',        group: :development
 group :test, :development do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'rails-pry'
+  gem 'pry-byebug'
 end
 
 # Use ActiveModel has_secure_password
