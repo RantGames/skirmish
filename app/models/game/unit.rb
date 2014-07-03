@@ -1,4 +1,4 @@
-class Unit < ActiveRecord::Base
+class Game::Unit < ActiveRecord::Base
   belongs_to :city
   belongs_to :player
 end
