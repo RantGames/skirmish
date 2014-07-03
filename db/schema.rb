@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20140703042058) do
     t.integer  "player_id"
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "population_capacity"
+    t.integer  "population"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
