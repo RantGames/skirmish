@@ -15,6 +15,7 @@ describe GameStateParser do
                         name: 'Copenhagen',
                         latitude: 55.6712674,
                         longitude: 12.5608388,
+                        population: 1_969_941,
                         units: [
                             {
                                 id: 1,
@@ -41,6 +42,7 @@ describe GameStateParser do
                         name: 'Wellington',
                         latitude: -41.2443701,
                         longitude: 174.7618546,
+                        population: 200_000,
                         units: [
                             {
                                 id: 3,
