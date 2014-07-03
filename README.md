@@ -14,5 +14,5 @@ Implemented in rails and javascript, with React and Sidekiq, and using MapBox an
 
 ## Links
 + Heroku TBD
-+ [Project Workflow](https://github.com/RantGames/skirmish/blob/master/project%20workflow.md "Project Workflow")
++ [Project Workflow](https://github.com/RantGames/skirmish/blob/master/project_workflow.md "Project Workflow")
 
