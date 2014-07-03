@@ -11,10 +11,57 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703041614) do
+ActiveRecord::Schema.define(version: 20140703042058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cities", force: true do |t|
+    t.integer  "player_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "population_capacity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "matches", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "moves", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "turn_id"
+    t.string   "action"
+    t.integer  "target_id"
+    t.integer  "origin_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "players", force: true do |t|
+    t.integer  "match_id"
+    t.boolean  "moved"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "turns", force: true do |t|
+    t.integer  "game_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "units", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "city_id"
+    t.string   "type"
+    t.integer  "attack"
+    t.integer  "defense"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "username"
