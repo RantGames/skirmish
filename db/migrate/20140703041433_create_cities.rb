@@ -5,6 +5,7 @@ class CreateCities < ActiveRecord::Migration
       t.float :latitude
       t.float :longitude
       t.integer :population_capacity
+      t.string :name
 
       t.timestamps
     end

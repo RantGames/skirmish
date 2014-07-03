@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140703042058) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "population_capacity"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -57,7 +58,7 @@ ActiveRecord::Schema.define(version: 20140703042058) do
   create_table "units", force: true do |t|
     t.integer  "player_id"
     t.integer  "city_id"
-    t.string   "type"
+    t.string   "unit_type"
     t.integer  "attack"
     t.integer  "defense"
     t.datetime "created_at"
