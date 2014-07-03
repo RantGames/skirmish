@@ -10,6 +10,8 @@ Implemented in rails and javascript, with react and sidekiq, and using MapBox an
 ## How to use the code
 + git clone (this project)
 + bundle install
++ git submodule init
++ git submodule update
 + rails s
 
 ## Links
