@@ -7,8 +7,8 @@
 A turn-based grand stratgy global warfare game played on a real map.
 Implemented in rails and javascript, with React and Sidekiq, and using MapBox and Pusher APIs
 
-## How to use the code (rake, database, etc.)
-+ git clone
+## How to use the code
++ git clone (this project)
 + bundle install
 + rails s
 
