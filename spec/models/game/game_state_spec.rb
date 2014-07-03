@@ -17,11 +17,11 @@ describe Game::GameState do
     game_state = Game::GameState.new(players)
     game_state.advance_turn
 
-    2.times do |i|
+    game_state.players.each_with_index do |player, i|
       expected_units = [Game::Unit.new(city_id: i+1, unit_type: 'infantry', attack: 1, defense: 1),
                         Game::Unit.new(city_id: i+1, unit_type: 'infantry', attack: 1, defense: 1)]
-      actual_units = game_state.players[i].cities[0].units.to_a
-      actual_units.length.times {|i| expect(actual_units[i]).to be_same_as(expected_units[i])}
+      actual_units = player.cities[0].units.to_a
+      actual_units.zip(expected_units).each {|actual_unit, expected_unit| expect(actual_unit).to be_same_as(expected_unit)}
     end
   end
 end
