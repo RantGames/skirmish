@@ -28,6 +28,7 @@ gem 'devise'
 gem 'spring',        group: :development
 
 group :test, :development do
+  gem 'active_record_ignored_attributes'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'rails-pry'
