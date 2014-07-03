@@ -4,8 +4,8 @@ class CreateUnits < ActiveRecord::Migration
       t.belongs_to :player
       t.belongs_to :city
       t.string :type
-      t.int :attack
-      t.int :defense
+      t.integer :attack
+      t.integer :defense
 
       t.timestamps
     end

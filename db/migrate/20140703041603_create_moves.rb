@@ -4,8 +4,8 @@ class CreateMoves < ActiveRecord::Migration
       t.belongs_to :player
       t.belongs_to :turn
       t.string :action
-      t.int :target_id
-      t.int :origin_id
+      t.integer :target_id
+      t.integer :origin_id
 
       t.timestamps
     end
