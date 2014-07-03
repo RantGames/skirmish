@@ -4,7 +4,6 @@ require 'game_state_helper'
 
 describe GameStateParser do
   it 'can parse a game state' do
-    pending 'game state parsing being vaguely implemented'
     game_state = {
         players: [
             {
