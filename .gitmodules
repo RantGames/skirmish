@@ -1,3 +1,3 @@
 [submodule "public/skirmish-web"]
 	path = public/skirmish-web
-	url = git@github.com:RantGames/skirmish-web.git
+	url = https://github.com/RantGames/skirmish-web.git
