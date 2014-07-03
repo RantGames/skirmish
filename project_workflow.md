@@ -24,7 +24,6 @@
 
 ## Product Management Tools
 + Trello
-+ Travis CI
 
 ## Coding Strategies
 + Generally TDD and otherwise ensuring test coverage
