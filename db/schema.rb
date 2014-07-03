@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20140703042058) do
   create_table "players", force: true do |t|
     t.integer  "match_id"
     t.boolean  "moved"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
