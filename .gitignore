@@ -16,3 +16,6 @@
 /tmp
 .idea/*
 *.iml
+
+.DS_Store
+.DS_store
