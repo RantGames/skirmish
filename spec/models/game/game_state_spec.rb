@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'game/factories'
 
 describe Game::GameState do
-
   it 'can generate reinforcements' do
     ubermouse = Game::Player.new(id: 1, name: 'ubermouse')
     copenhagen = Game::City.new(id: 1, name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
@@ -14,10 +13,7 @@ describe Game::GameState do
     wellington.units.new(unit_type: 'infantry', attack: 1, defense: 1)
     widdershin.cities << wellington
 
-    @players = [ubermouse, widdershin]
-  end
-
-  it 'can generate reinforcements' do
+    players = [ubermouse, widdershin]
 
     game_state = Game::GameState.new(players)
     game_state.advance_turn(only: Game::StateModifiers::Reinforcements)
@@ -48,15 +44,4 @@ describe Game::GameState do
     expect(copenhagen_units.length).to eq(0)
     expect(wellington_units.first.id).to eq(1)
   end
-
-
-
-  pending it 'can convert game_state to json given id' do
-    game_state_in_json = "{players:[{id:1,name:'ubermouse',cities:[{id:1,name:'Copenhagen',latitude:55.6712674,longitude:12.5608388,units:[{id:1,type:'infantry',attack:1,defense:1},{id:2,type:'infantry',attack:1,defense:1},]}]},{id:2,name:'widdershin',cities:[{id:2,name:'Wellington',latitude:-41.2443701,longitude:174.7618546,units:[{id:3,unit_type:'infantry',attack:1,defense:1},{id:4,unit_type:'infantry',attack:1,defense:1},{id:5,unit_type:'infantry',attack:1,defense:1},]}]}]}"
-
-    expect(GameState.json_by_id(1)).to equal(game_state_in_json)
-
-  end
-
 end
-
