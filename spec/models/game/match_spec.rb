@@ -10,7 +10,7 @@ describe 'allocate match' do
     @match1 = Game::Match.new
     @match1.players = [Game::Factories::Player.make]
 
-    Game::Match.stub(:last).and_return(@match1)
+    allow(Game::Match).to receive(:last).and_return(@match1)
   end
 
   context 'board not full' do
@@ -21,8 +21,8 @@ describe 'allocate match' do
     end
 
     it 'if board not full, send last board' do
-      @match1.stub(:full?).and_return(false)
-      Game::Match.should_receive(:setup_in_latest_match)
+      allow(@match1).to receive(:full?).and_return(false)
+      expect(Game::Match).to receive(:setup_in_latest_match)
       Game::Match.allocate_match
     end
 
@@ -35,12 +35,11 @@ describe 'allocate match' do
     end
 
     it 'if board full, setup_new_match' do
-      @match1.stub(:full?).and_return(true)
-      Game::Match.should_receive(:setup_new_game_state)
+      allow(@match).to receive(:full?).and_return(true)
+      expect(Game::Match).to receive(:setup_new_game_state)
       Game::Match.allocate_match
     end
 
   end
-
 
 end

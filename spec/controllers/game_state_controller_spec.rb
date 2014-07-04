@@ -8,7 +8,7 @@ RSpec.describe GameStateController, :type => :controller do
     before do
       @match = Game::Match.new
       @match.players = [Game::Factories::Player.make]
-      Game::Match.stub(:find).and_return(@match)
+      allow(Game::Match).to receive(:find).and_return(@match)
       get 'show', :id => 1
     end
 
@@ -30,7 +30,7 @@ RSpec.describe GameStateController, :type => :controller do
         @match = Game::Match.new
         @match.players = [Game::Factories::Player.make]
         @match.players[0].id = 5
-        Game::Match.stub(:allocate_match).and_return(@match)
+        allow(Game::Match).to receive(:allocate_match).and_return(@match)
         get 'new'
       end
 
