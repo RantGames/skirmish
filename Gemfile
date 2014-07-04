@@ -36,6 +36,7 @@ group :test, :development do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'faker'
+  gem 'rspec-activemodel-mocks'
 end
 
 # Use ActiveModel has_secure_password

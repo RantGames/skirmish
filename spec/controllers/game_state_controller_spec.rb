@@ -1,24 +1,29 @@
 require 'rails_helper'
+require 'game/factories'
 
 RSpec.describe GameStateController, :type => :controller do
 
+  # let(:match) { stub_model(Game::Match) }
+
+  before do
+    match = Game::Match.new
+    3.times do
+      match.players << Game::Factories::Player.make
+    end
+    Game::Match.stub(:find).and_return(match)
+    get 'show', :id => 1
+  end
+
   describe "GET 'show'" do
     it "returns http success" do
-      get 'show'
       expect(response).to be_success
     end
   end
 
-  describe "GET 'show'" do
-    pending
+  describe "GET show a match by id" do
+
     it "returns game_state in json" do
-
-
-
-      get 'show/1'
-
-      expect(   .to_json)to equal("{players:[{id:1,name:'ubermouse',cities:[{id:1,name:'Copenhagen',latitude:55.6712674,longitude:12.5608388,units:[{id:1,type:'infantry',attack:1,defense:1},{id:2,type:'infantry',attack:1,defense:1},]}]},{id:2,name:'widdershin',cities:[{id:2,name:'Wellington',latitude:-41.2443701,longitude:174.7618546,units:[{id:3,unit_type:'infantry',attack:1,defense:1},{id:4,unit_type:'infantry',attack:1,defense:1},{id:5,unit_type:'infantry',attack:1,defense:1},]}]}]}")
-
+      expect(response.body).to equal(match.to_json)
     end
   end
 
