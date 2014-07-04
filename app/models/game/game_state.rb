@@ -21,7 +21,6 @@ class Game::GameState
     end
   end
 
-
   def get_player(id)
     Game::Player.find_by_id(id)
   end
@@ -71,6 +70,7 @@ private
   def filter_state_modifiers(modifiers, only)
     modifiers = modifiers.select { |m| m.name == only.name } if only.present?
     modifiers
+
   end
 end
 
