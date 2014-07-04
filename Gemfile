@@ -33,8 +33,9 @@ group :test, :development do
   gem 'active_record_ignored_attributes'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'rails-pry'
+  gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'faker'
 end
 
 # Use ActiveModel has_secure_password
