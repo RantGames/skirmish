@@ -26,7 +26,7 @@ describe Game::GameState do
     end
   end
 
-  it 'can process a move turn' do
+  pending it 'can process a move turn' do
     ubermouse = Game::Player.new(id: 1, name: 'ubermouse')
     copenhagen = Game::City.new(id: 1, name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
     copenhagen.units.new(id: 1, unit_type: 'infantry', attack: 1, defense: 1)
