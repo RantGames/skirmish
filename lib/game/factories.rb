@@ -37,7 +37,7 @@ module Skirmish
     class Player
       def self.make(args = {}, num_cities = 2, num_units_per_city = 2)
         attributes = {
-            match_id: 1,
+            game_id: 1,
             name: Faker::Internet::user_name
         }.merge(args)
 

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Skirmish::Game, :type => :model do
   it { should have_many :players }
+  it { should have_many :turns}
 end
 
 describe 'allocate match' do
@@ -10,7 +11,7 @@ describe 'allocate match' do
     @match1 = Skirmish::Game.new
     @match1.players = [Skirmish::Factories::Player.make]
 
-    Skirmish::Game.stub(:last).and_return(@match1)
+    allow(Skirmish::Game).to receive(:last).and_return(@match1)
   end
 
   context 'board not full' do
@@ -21,7 +22,7 @@ describe 'allocate match' do
     end
 
     it 'if board not full, send last board' do
-      @match1.stub(:full?).and_return(false)
+      allow(@match1).to receive(:full?).and_return(false)
       Skirmish::Game.should_receive(:setup_in_latest_match)
       Skirmish::Game.allocate_game
     end
@@ -35,7 +36,7 @@ describe 'allocate match' do
     end
 
     it 'if board full, setup_new_match' do
-      @match1.stub(:full?).and_return(true)
+      allow(@match1).to receive(:full?).and_return(true)
       Skirmish::Game.should_receive(:setup_new_game_state)
       Skirmish::Game.allocate_game
     end
