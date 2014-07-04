@@ -56,7 +56,7 @@ class Game::GameState
 
   def self.from_match(match_id)
     match = Match.find(match_id)
-    GameState.new(match.players)
+    Game::GameState.new(match.players)
   end
 
 private
