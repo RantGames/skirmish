@@ -42,8 +42,6 @@ describe Game::GameState do
     turn.moves.create(player_id: ubermouse.id, action: Game::Move::MOVE_UNIT, origin_id: copenhagen_unit.id, target_id: wellington.id)
     game_state.advance_turn(only: Game::StateModifiers::Turn)
 
-    copenhagen.reload
-
     copenhagen_units = game_state.units_for_city(copenhagen.id)
     wellington_units = game_state.units_for_city(wellington.id)
 
