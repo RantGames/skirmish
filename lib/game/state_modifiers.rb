@@ -15,5 +15,11 @@ module Game
         city.units << Game::Factories::Unit.make(city_id: city.id)
       end
     end
+
+    class Turn
+      def self.process(game_state)
+
+      end
+    end
   end
 end
