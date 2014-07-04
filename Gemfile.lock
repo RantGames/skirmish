@@ -56,6 +56,11 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    dotenv (0.11.1)
+      dotenv-deployment (~> 0.0.2)
+    dotenv-deployment (0.0.2)
+    dotenv-rails (0.11.1)
+      dotenv (= 0.11.1)
     erubis (2.7.0)
     execjs (2.2.1)
     facets (2.9.3)
@@ -184,6 +189,7 @@ DEPENDENCIES
   active_record_ignored_attributes
   database_cleaner
   devise
+  dotenv-rails
   faker
   jbuilder (~> 2.0)
   jquery-rails
