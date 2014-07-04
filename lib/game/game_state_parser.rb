@@ -1,4 +1,4 @@
-class GameStateParser
+class Skirmish::GameStateParser
   attr_accessor :players
 
   def initialize(json)
@@ -12,7 +12,7 @@ class GameStateParser
 
 private
   def parse_player(player_hash)
-    player = Game::Player.new(id: player_hash['id'], name: player_hash['name'])
+    player = Skirmish::Player.new(id: player_hash['id'], name: player_hash['name'])
     cities = player_hash['cities'].map(&method(:parse_city))
     player.cities = cities
 
@@ -20,7 +20,7 @@ private
   end
 
   def parse_city(city_hash)
-    city = Game::City.new(id: city_hash['id'],
+    city = Skirmish::City.new(id: city_hash['id'],
                           name: city_hash['name'],
                           latitude: city_hash['latitude'],
                           longitude: city_hash['longitude'],
@@ -32,6 +32,6 @@ private
   end
 
   def parse_unit(unit)
-    Game::Unit.new(id: unit['id'], unit_type: unit['unit_type'], attack: unit['attack'], defense: unit['defense'])
+    Skirmish::Unit.new(id: unit['id'], unit_type: unit['unit_type'], attack: unit['attack'], defense: unit['defense'])
   end
 end
