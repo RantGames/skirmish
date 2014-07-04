@@ -5,7 +5,6 @@ module Game
     class Unit
       def self.make(args = {})
         attributes = {
-            id: rand(50000),
             unit_type: 'infantry',
             attack: 1,
             defense: 1
@@ -18,7 +17,6 @@ module Game
     class City
       def self.make(args = {}, num_units = 2)
         attributes = {
-        id: rand(50000),
         name: Faker::Address.city,
         latitude: Faker::Address.latitude,
         longitude: Faker::Address.longitude,
@@ -39,7 +37,6 @@ module Game
     class Player
       def self.make(args = {}, num_cities = 2, num_units_per_city = 2)
         attributes = {
-            id: rand(50000),
             match_id: 1,
             name: Faker::Internet::user_name
         }.merge(args)
