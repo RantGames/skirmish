@@ -1,6 +1,6 @@
 require 'game/factories'
 
-module Game
+module Skirmish
   module StateModifiers
     class Reinforcements
       def self.process(match, game_state)
@@ -12,7 +12,7 @@ module Game
 
     private
       def self.add_reinforcement(city)
-        city.units << Game::Factories::Unit.make(city_id: city.id)
+        city.units << Skirmish::Factories::Unit.make(city_id: city.id)
       end
     end
 

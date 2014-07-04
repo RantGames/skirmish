@@ -1,16 +1,16 @@
 require 'game/state_modifiers'
 
-class Game::GameState
+class Skirmish::GameState
   attr_reader :players
   attr_reader :match
-  STATE_MODIFIERS = [Game::StateModifiers::Turn, Game::StateModifiers::Reinforcements]
+  STATE_MODIFIERS = [Skirmish::StateModifiers::Turn, Skirmish::StateModifiers::Reinforcements]
 
   def initialize(players)
     @players = players
     match_id = players[0].match_id
 
     assert_match_ids_same(players, match_id)
-    @match = Game::Match.find_by_id(match_id)
+    @match = Skirmish::Game.find_by_id(match_id)
   end
 
   def advance_turn(only: nil)
@@ -22,15 +22,15 @@ class Game::GameState
   end
 
   def get_player(id)
-    Game::Player.find_by_id(id)
+    Skirmish::Player.find_by_id(id)
   end
 
   def get_city(city_id)
-    Game::City.find_by_id(city_id)
+    Skirmish::City.find_by_id(city_id)
   end
 
   def get_unit(unit_id)
-    Game::Unit.find_by_id(unit_id)
+    Skirmish::Unit.find_by_id(unit_id)
   end
 
   def cities_for_player(id)
@@ -48,14 +48,14 @@ class Game::GameState
   end
 
   def self.from_json(json)
-    parser = GameStateParser.new(json)
+    parser = Skirmish::GameStateParser.new(json)
     parser.parse
     GameState.new(parser.players)
   end
 
   def self.from_match(match_id)
-    match = Match.find(match_id)
-    Game::GameState.new(match.players)
+    match = Game.find(match_id)
+    Skirmish::GameState.new(match.players)
   end
 
 private
