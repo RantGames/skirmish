@@ -1,5 +1,6 @@
 class GameStateController < ApplicationController
   def show
-    GameState.json_by_id(params(:id))
+    @match = Game::Match.find(params[:id])
+    render json: @match
   end
 end
