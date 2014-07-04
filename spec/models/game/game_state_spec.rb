@@ -22,16 +22,13 @@ describe Game::GameState do
 
     it 'generates reinforcements' do
       p1_id = @players[0].id
-      p2_id = @players[1].id
-      @player1_units = @game_state.units_for_player(p1_id)
-      @player1_cities = @game_state.cities_for_player(p1_id)
-      @player2_units = @game_state.units_for_player(p2_id)
-      @player2_cities = @game_state.cities_for_player(p2_id)
+      cities = @game_state.cities_for_player(p1_id)
 
-      @game_state.advance_turn(only: Game::StateModifiers::Reinforcements)
-
-      expect(@game_state.units_for_player(p1_id).length).to eq(@player1_units.length + @player1_cities.length)
-      expect(@game_state.units_for_player(p2_id).length).to eq(@player2_units.length + @player2_cities.length)
+      expect {
+        @game_state.advance_turn(only: Game::StateModifiers::Reinforcements)
+      }.to change {
+        @game_state.units_for_player(p1_id).length
+      }.by(cities.length)
     end
   end
 
