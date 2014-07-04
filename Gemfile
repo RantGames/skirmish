@@ -26,10 +26,12 @@ gem 'devise'
 gem 'pusher'
 gem "active_model_serializers"
 
+
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
 group :test, :development do
+  gem 'database_cleaner'
   gem 'active_record_ignored_attributes'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
