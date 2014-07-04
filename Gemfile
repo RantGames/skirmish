@@ -31,6 +31,7 @@ gem "active_model_serializers"
 gem 'spring',        group: :development
 
 group :test, :development do
+  gem 'dotenv-rails'
   gem 'database_cleaner'
   gem 'active_record_ignored_attributes'
   gem 'rspec-rails'
