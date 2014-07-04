@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140703042058) do
   end
 
   create_table "turns", force: true do |t|
-    t.integer  "game_id"
+    t.integer  "match_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
