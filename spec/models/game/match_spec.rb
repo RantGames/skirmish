@@ -39,6 +39,15 @@ describe 'allocate match' do
       expect(Game::Match).to receive(:setup_new_game_state)
       Game::Match.allocate_match
     end
+  end
+
+  context 'no board' do
+
+    it 'when no match, setup_new_match' do
+      allow(@match).to receive(:exists?).and_return(false)
+      expect(Game::Match).to receive(:setup_new_game_state)
+      Game::Match.allocate_match
+    end
 
   end
 

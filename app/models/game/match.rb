@@ -3,8 +3,11 @@ class Game::Match < ActiveRecord::Base
   has_many :turns
 
   def self.allocate_match
-    self.setup_new_game_state if self.last.full?
-    self.setup_in_latest_match
+    if !self.exists? || self.last.full?
+      self.setup_new_game_state
+    else
+      self.setup_in_latest_match
+    end
   end
 
   def full?
@@ -16,7 +19,8 @@ class Game::Match < ActiveRecord::Base
   end
 
   def self.setup_new_game_state
-    # Game::GameState.new() - with player id - sort out 2 player start issue
+    # Game::GameState.new() - with player id? - sort out 2 player start issue
+    self.setup_in_latest_match
   end
 
   def self.setup_in_latest_match
