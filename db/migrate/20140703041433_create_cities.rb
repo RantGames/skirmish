@@ -4,7 +4,7 @@ class CreateCities < ActiveRecord::Migration
       t.belongs_to :player
       t.float :latitude
       t.float :longitude
-      t.integer :population_capacity
+      t.integer :population
       t.string :name
 
       t.timestamps
