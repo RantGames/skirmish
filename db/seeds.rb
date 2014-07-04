@@ -1,10 +1,10 @@
-require "game/factories"
+require 'game/factories'
 
-match = Skirmish::Game.new
+game = Skirmish::Game.new
 
 3.times do
-  match.players << Skirmish::Factories::Player.make
+  game.players << Skirmish::Factories::Player.make
 end
 
-match.save
+game.save
 

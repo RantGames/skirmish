@@ -4,9 +4,9 @@ require 'game/factories'
 describe Skirmish::GameState do
 
   before do
-    @match = Skirmish::Game.create(id: 1)
+    @game = Skirmish::Game.create(id: 1)
 
-    @ubermouse = Skirmish::Player.create(match_id: @match.id, name: 'ubermouse')
+    @ubermouse = Skirmish::Player.create(game_id: @game.id, name: 'ubermouse')
     @copenhagen = Skirmish::City.create(name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
     @copenhagen_unit = Skirmish::Unit.create(unit_type: 'infantry', attack: 1, defense: 1)
     @copenhagen.units << @copenhagen_unit
@@ -35,7 +35,7 @@ describe Skirmish::GameState do
   describe 'processing moves' do
     describe 'move unit' do
       before do
-        @turn = Skirmish::Turn.create(match_id: @match.id)
+        @turn = Skirmish::Turn.create(game_id: @game.id)
         @turn.moves.create(player_id: @ubermouse.id, action: Skirmish::Move::MOVE_UNIT, origin_id: @copenhagen_unit.id, target_id: @wellington.id)
       end
 
