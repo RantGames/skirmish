@@ -1,5 +1,5 @@
 class StaticController < ApplicationController
   def app
-    render file: '/public/skirmish-web/app', layout: false
+    render file: '/public/skirmish-web/app'
   end
 end
