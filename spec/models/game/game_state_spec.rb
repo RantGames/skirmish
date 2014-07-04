@@ -16,7 +16,7 @@ describe Game::GameState do
     players = [ubermouse, widdershin]
 
     game_state = Game::GameState.new(players)
-    game_state.advance_turn
+    game_state.advance_turn(only: Game::StateModifiers::Reinforcements)
 
     game_state.players.each_with_index do |player, i|
       expected_units = [Game::Unit.new(city_id: i+1, unit_type: 'infantry', attack: 1, defense: 1),
