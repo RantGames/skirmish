@@ -2,7 +2,7 @@ require 'game/game_state_parser'
 require 'game/factories'
 require 'rails_helper'
 
-describe GameStateParser do
+describe Skirmish::GameStateParser do
   it 'can parse a game state' do
     game_state = {
         players: [
@@ -69,19 +69,19 @@ describe GameStateParser do
         ]
     }
 
-    parser = GameStateParser.new(game_state.to_json)
+    parser = Skirmish::GameStateParser.new(game_state.to_json)
     parser.parse
 
-    ubermouse = Game::Player.new(id: 1, name: 'ubermouse')
-    copenhagen = Game::City.new(id: 1, name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
-    copenhagen.units << Game::Factories::Unit.make(id: 1)
-    copenhagen.units << Game::Factories::Unit.make(id: 2)
+    ubermouse = Skirmish::Player.new(id: 1, name: 'ubermouse')
+    copenhagen = Skirmish::City.new(id: 1, name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
+    copenhagen.units << Skirmish::Factories::Unit.make(id: 1)
+    copenhagen.units << Skirmish::Factories::Unit.make(id: 2)
 
-    widdershin = Game::Player.new(id: 2, name: 'Widdershin')
-    wellington = Game::City.new(id: 3, name: 'Wellington', latitude: -41.2443701, longitude: 174.7618546)
-    wellington.units << Game::Factories::Unit.make(id: 3)
-    wellington.units << Game::Factories::Unit.make(id: 4)
-    wellington.units << Game::Factories::Unit.make(id: 5)
+    widdershin = Skirmish::Player.new(id: 2, name: 'Widdershin')
+    wellington = Skirmish::City.new(id: 3, name: 'Wellington', latitude: -41.2443701, longitude: 174.7618546)
+    wellington.units << Skirmish::Factories::Unit.make(id: 3)
+    wellington.units << Skirmish::Factories::Unit.make(id: 4)
+    wellington.units << Skirmish::Factories::Unit.make(id: 5)
 
     expect(parser.players).to eq([ubermouse, widdershin])
   end

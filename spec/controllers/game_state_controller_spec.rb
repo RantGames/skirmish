@@ -6,19 +6,19 @@ RSpec.describe GameStateController, :type => :controller do
   describe 'show' do
 
     before do
-      @match = Game::Match.new
-      @match.players = [Game::Factories::Player.make]
-      Game::Match.stub(:find).and_return(@match)
+      @game = Skirmish::Game.create
+      @game.players = [Skirmish::Factories::Player.make]
+      expect(Skirmish::Game).to receive(:find).and_return(@game)
       get 'show', :id => 1
     end
 
     describe "GET 'show'" do
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_success
       end
 
-      it "returns game_state in json" do
-        pattern = {"match"=>{"id"=>wildcard_matcher, "players"=>[{"id"=>Fixnum, "name"=>String, "cities"=>[{"id"=>Fixnum, "name"=>String, "latitude"=>Float, "longitude"=>Float, "population"=>Fixnum, "units"=>[{"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}, {"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}]}, {"id"=>Fixnum, "name"=>String, "latitude"=>Float, "longitude"=>Float, "population"=>Fixnum, "units"=>[{"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}, {"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}]}]}]}}
+      it 'returns game_state in json' do
+        pattern = {'game' =>{'id' =>wildcard_matcher, 'players' =>[{'id' =>Fixnum, 'name' =>String, 'cities' =>[{'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[{'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}, {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]}, {'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[{'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}, {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]}]}]}}
         expect(response.body).to match_json_expression(pattern)
       end
 
@@ -27,10 +27,6 @@ RSpec.describe GameStateController, :type => :controller do
     describe "GET 'new'" do
 
       before do
-        @match = Game::Match.new
-        @match.players = [Game::Factories::Player.make]
-        @match.players[0].id = 5
-        Game::Match.stub(:allocate_match).and_return(@match)
         get 'new'
       end
 
@@ -39,7 +35,8 @@ RSpec.describe GameStateController, :type => :controller do
       end
 
       it 'gets a board for logged in player with their id in it' do
-        expect(response.body).to include("\"id\":#{@match.players[0].id}")
+        pending('Skirmish::Game#setup_new_game_state needs to be implemented')
+        expect(response.body).to include({id: @game.players.first.id}.to_json)
       end
 
     end
