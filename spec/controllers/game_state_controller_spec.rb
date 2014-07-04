@@ -27,6 +27,10 @@ RSpec.describe GameStateController, :type => :controller do
     describe "GET 'new'" do
 
       before do
+        @match = Game::Match.new
+        @match.players = [Game::Factories::Player.make]
+        @match.players[0].id = 5
+        allow(Game::Match).to receive(:allocate_match).and_return(@match)
         get 'new'
       end
 
