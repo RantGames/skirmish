@@ -1,4 +1,4 @@
-module Game::MoveProcessors
+module Skirmish::MoveProcessors
   class MoveUnit
     def self.process(move, game_state)
       unit_to_move = game_state.get_unit(move.origin_id)

@@ -1,6 +1,6 @@
 require 'faker'
 
-module Game
+module Skirmish
   module Factories
     class Unit
       def self.make(args = {})
@@ -9,7 +9,7 @@ module Game
             attack: 1,
             defense: 1
         }.merge(args)
-        Game::Unit.create(attributes)
+        Skirmish::Unit.create(attributes)
       end
     end
 
@@ -23,7 +23,7 @@ module Game
         population: rand(2_500_000)
         }.merge(args)
 
-        city = Game::City.create(attributes)
+        city = Skirmish::City.create(attributes)
         num_units.times {
           city.units << Unit.make(city_id: city.id)
         }
@@ -37,11 +37,11 @@ module Game
     class Player
       def self.make(args = {}, num_cities = 2, num_units_per_city = 2)
         attributes = {
-            match_id: 1,
+            game_id: 1,
             name: Faker::Internet::user_name
         }.merge(args)
 
-        player = Game::Player.create(attributes)
+        player = Skirmish::Player.create(attributes)
         num_cities.times {
           player.cities << City.make({player_id: player.id}, num_units_per_city)
         }

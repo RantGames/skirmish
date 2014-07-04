@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20140703042058) do
     t.datetime "updated_at"
   end
 
-  create_table "matches", force: true do |t|
+  create_table "games", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -42,21 +42,19 @@ ActiveRecord::Schema.define(version: 20140703042058) do
   end
 
   create_table "players", force: true do |t|
-    t.integer  "match_id"
-    t.boolean  "moved"
+    t.integer  "game_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "turns", force: true do |t|
-    t.integer  "match_id"
+    t.integer  "game_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "units", force: true do |t|
-    t.integer  "player_id"
     t.integer  "city_id"
     t.string   "unit_type"
     t.integer  "attack"
