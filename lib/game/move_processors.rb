@@ -3,7 +3,10 @@ module Game::MoveProcessors
     def self.process(move, game_state)
       unit_to_move = game_state.get_unit(move.origin_id)
       city_to_move_to = game_state.get_city(move.target_id)
-      city_to_move_to.units << unit_to_move
+      unit_to_move.city_id = city_to_move_to.id
+      unit_to_move.city.reload
+      unit_to_move.save
+      city_to_move_to.reload
     end
   end
 
