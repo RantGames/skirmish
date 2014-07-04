@@ -3,14 +3,12 @@ require 'game/factories'
 
 RSpec.describe GameStateController, :type => :controller do
 
-  # let(:match) { stub_model(Game::Match) }
-
   before do
-    match = Game::Match.new
+    @match = Game::Match.new
     3.times do
-      match.players << Game::Factories::Player.make
+      @match.players << Game::Factories::Player.make
     end
-    Game::Match.stub(:find).and_return(match)
+    Game::Match.stub(:find).and_return(@match)
     get 'show', :id => 1
   end
 
@@ -23,10 +21,10 @@ RSpec.describe GameStateController, :type => :controller do
   describe "GET show a match by id" do
 
     it "returns game_state in json" do
-
-      expect(response.body).to equal(match.to_json)
-
+      p response.body
+      expect(response.body).to eq(@match.to_json)
     end
+
   end
 
 end
