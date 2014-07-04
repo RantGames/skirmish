@@ -10,7 +10,7 @@ class Game::GameState
 
   def advance_turn(only: nil)
     modifiers = STATE_MODIFIERS
-    modifiers = modifiers.select {|m| m.name == only.name} if only.present?
+    modifiers = filter_state_modifiers(modifiers, only)
     modifiers.each do |modifier|
       modifier.process(self)
     end
@@ -45,7 +45,10 @@ class Game::GameState
     GameState.new(parser.players)
   end
 
-  def self.json_by_id(match_id)
+private
+  def filter_state_modifiers(modifiers, only)
+    modifiers = modifiers.select { |m| m.name == only.name } if only.present?
+    modifiers
 
   end
 end
