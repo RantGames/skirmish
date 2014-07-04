@@ -17,11 +17,11 @@ describe 'allocate match' do
 
     it 'match has cities with no player id' do
       @match1.players.map(&:cities)[0][0].id = nil
-      expect(@match1.full?).to eq(false)
+      expect(@match1.not_full?).to eq(false)
     end
 
     it 'if board not full, send last board' do
-      allow(@match1).to receive(:full?).and_return(false)
+      allow(@match1).to receive(:not_full?).and_return(true)
       expect(Game::Match).to receive(:setup_in_latest_match)
       Game::Match.allocate_match
     end
@@ -31,11 +31,11 @@ describe 'allocate match' do
   context 'board full' do
 
     it 'match has no cities with no player id' do
-      expect(@match1.full?).to eq(true)
+      expect(@match1.not_full?).to eq(true)
     end
 
     it 'if board full, setup_new_match' do
-      allow(@match).to receive(:full?).and_return(true)
+      allow(@match).to receive(:not_full?).and_return(false)
       expect(Game::Match).to receive(:setup_new_game_state)
       Game::Match.allocate_match
     end

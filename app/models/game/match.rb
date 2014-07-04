@@ -3,14 +3,15 @@ class Game::Match < ActiveRecord::Base
   has_many :turns
 
   def self.allocate_match
-    if !self.exists? || self.last.full?
-      self.setup_new_game_state
-    else
+    if self.exists? && !self.last.not_full?
       self.setup_in_latest_match
+    else
+      self.setup_new_game_state
     end
+
   end
 
-  def full?
+  def not_full?
     self.cities.all? {|city| city.id != nil}
   end
 
