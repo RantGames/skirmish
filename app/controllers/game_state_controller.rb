@@ -1,9 +1,9 @@
 class GameStateController < ApplicationController
   def show
-    render json: Game::Match.find(params[:id])
+    render json: Skirmish::Game.find(params[:id])
   end
 
   def new
-    render json: Game::Match.allocate_match
+    render json: Skirmish::Game.allocate_game
   end
 end
