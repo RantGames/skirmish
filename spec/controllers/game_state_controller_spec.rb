@@ -20,8 +20,7 @@ RSpec.describe GameStateController, :type => :controller do
 
   describe "GET show a match by id" do
 
-    it "returns game_state in json" do
-      p response.body
+    pending it "returns game_state in json" do
       expect(response.body).to eq(@match.to_json)
     end
 
