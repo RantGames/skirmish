@@ -10,7 +10,7 @@ module Game
             attack: 1,
             defense: 1
         }.merge(args)
-        Game::Unit.new(attributes)
+        Game::Unit.create(attributes)
       end
     end
 
@@ -25,11 +25,12 @@ module Game
         population: rand(2_500_000)
         }.merge(args)
 
-        city = Game::City.new(attributes)
+        city = Game::City.create(attributes)
         num_units.times {
           city.units << Unit.make(city_id: city.id)
         }
 
+        city.save
         city
       end
 
@@ -43,11 +44,12 @@ module Game
             name: Faker::Internet::user_name
         }.merge(args)
 
-        player = Game::Player.new(attributes)
+        player = Game::Player.create(attributes)
         num_cities.times {
           player.cities << City.make({player_id: player.id}, num_units_per_city)
         }
 
+        player.save
         player
       end
     end
