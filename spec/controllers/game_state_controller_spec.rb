@@ -6,9 +6,9 @@ RSpec.describe GameStateController, :type => :controller do
   describe 'show' do
 
     before do
-      @match = Game::Match.new
-      @match.players = [Game::Factories::Player.make]
-      Game::Match.stub(:find).and_return(@match)
+      @match = Skirmish::Game.new
+      @match.players = [Skirmish::Factories::Player.make]
+      allow(Skirmish::Game).to receive(:find).and_return(@match)
       get 'show', :id => 1
     end
 
@@ -27,10 +27,10 @@ RSpec.describe GameStateController, :type => :controller do
     describe "GET 'new'" do
 
       before do
-        @match = Game::Match.new
-        @match.players = [Game::Factories::Player.make]
+        @match = Skirmish::Game.new
+        @match.players = [Skirmish::Factories::Player.make]
         @match.players[0].id = 5
-        Game::Match.stub(:allocate_match).and_return(@match)
+        allow(Skirmish::Game).to receive(:allocate_game).and_return(@match)
         get 'new'
       end
 

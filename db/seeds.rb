@@ -1,9 +1,9 @@
 require "game/factories"
 
-match = Game::Match.new
+match = Skirmish::Game.new
 
 3.times do
-  match.players << Game::Factories::Player.make
+  match.players << Skirmish::Factories::Player.make
 end
 
 match.save

@@ -1,8 +1,8 @@
-class Game::Match < ActiveRecord::Base
+class Skirmish::Game < ActiveRecord::Base
   has_many :players
   has_many :turns
 
-  def self.allocate_match
+  def self.allocate_game
     self.setup_new_game_state if self.last.full?
     self.setup_in_latest_match
   end

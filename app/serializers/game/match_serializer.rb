@@ -1,4 +1,4 @@
-class Game::MatchSerializer < ActiveModel::Serializer
+class Skirmish::MatchSerializer < ActiveModel::Serializer
   attributes :id
   has_many :players
 end
