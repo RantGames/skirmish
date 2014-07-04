@@ -26,6 +26,11 @@ class Game::GameState
     cities.find {|c| c.id == city_id}
   end
 
+  def get_unit(unit_id)
+    units = players.map(&:cities).flatten.map(&:units).flatten
+    units.find {|u| u.id == unit_id}
+  end
+
   def cities_for_player(id)
     get_player(id).cities
   end
