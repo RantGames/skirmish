@@ -54,6 +54,6 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-
-  root to: "index#index"
+  # get ':action' => 'static#:action'
+  root to: "static#app"
 end
