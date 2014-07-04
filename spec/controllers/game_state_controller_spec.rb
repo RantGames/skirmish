@@ -5,9 +5,7 @@ RSpec.describe GameStateController, :type => :controller do
 
   before do
     @match = Game::Match.new
-    3.times do
-      @match.players << Game::Factories::Player.make
-    end
+    @match.players = [Game::Factories::Player.make]
     Game::Match.stub(:find).and_return(@match)
     get 'show', :id => 1
   end
@@ -18,10 +16,11 @@ RSpec.describe GameStateController, :type => :controller do
     end
   end
 
-  describe "GET show a match by id" do
+  describe "GET get json match by id" do
 
-    pending it "returns game_state in json" do
-      expect(response.body).to eq(@match.to_json)
+    it "returns game_state in json" do
+      pattern = {"match"=>{"id"=>wildcard_matcher, "players"=>[{"id"=>Fixnum, "name"=>String, "cities"=>[{"id"=>Fixnum, "name"=>String, "latitude"=>Float, "longitude"=>Float, "population"=>Fixnum, "units"=>[{"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}, {"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}]}, {"id"=>Fixnum, "name"=>String, "latitude"=>Float, "longitude"=>Float, "population"=>Fixnum, "units"=>[{"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}, {"id"=>Fixnum, "unit_type"=>String, "attack"=>Fixnum, "defense"=>Fixnum}]}]}]}}
+      expect(response.body).to match_json_expression(pattern)
     end
 
   end
