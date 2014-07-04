@@ -53,4 +53,5 @@ describe Game::GameState do
       expect(wellington_units.first.id).to eq(1)
     end
   end
+
 end
