@@ -13,4 +13,8 @@ class Game::GameState
     parser.parse
     GameState.new(parser.players)
   end
+
+  def self.json_by_id(id)
+
+  end
 end
