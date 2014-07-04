@@ -4,7 +4,6 @@ require 'game_state_helper'
 
 describe GameStateParser do
   it 'can parse a game state' do
-    pending 'game state parsing being vaguely implemented'
     game_state = {
         players: [
             {
@@ -16,6 +15,7 @@ describe GameStateParser do
                         name: 'Copenhagen',
                         latitude: 55.6712674,
                         longitude: 12.5608388,
+                        population: 1_969_941,
                         units: [
                             {
                                 id: 1,
@@ -42,6 +42,7 @@ describe GameStateParser do
                         name: 'Wellington',
                         latitude: -41.2443701,
                         longitude: 174.7618546,
+                        population: 200_000,
                         units: [
                             {
                                 id: 3,
