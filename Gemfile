@@ -36,7 +36,6 @@ group :test, :development do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'faker'
-  gem 'rspec-activemodel-mocks'
   gem 'json_expressions'
 end
 
