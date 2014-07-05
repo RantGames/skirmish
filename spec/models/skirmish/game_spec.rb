@@ -10,6 +10,7 @@ RSpec.describe Skirmish::Game, :type => :model do
 
     let (:user) {double(:user, id:1, create_player: player)}
     let (:player) {Skirmish::Factories::Player.make}
+    let (:city) { @game.cities.first }
 
     before do
       @game = Skirmish::Game.new
@@ -23,6 +24,7 @@ RSpec.describe Skirmish::Game, :type => :model do
 
         before do
           allow(Skirmish::Game).to receive(:allocate_game).and_return(@game)
+          allow(@game).to receive(:award_random_barbarian_city).and_return(city)
           allow(@game).to receive(:add_player)
         end
 
@@ -38,20 +40,34 @@ RSpec.describe Skirmish::Game, :type => :model do
           expect(@game).to receive(:add_player).with(player)
         end
 
+        it 'awards a random starting city to the player' do
+          expect(@game).to receive(:award_random_barbarian_city).with(player)
+        end
+
         after do
           Skirmish::Game.join_new_game(user)
         end
       end
 
-      it 'returns the game with the user joined to it' do
-        user = User.create(
+      describe 'returned game state' do
+        let(:user) do
+          User.create(
             email: 'foo@bar.org',
             password: 'swordfish',
             password_confirmation: 'swordfish'
           )
+        end
 
-        game = Skirmish::Game.join_new_game(user)
-        expect(game.players.map(&:user)).to include user
+        let(:game) { Skirmish::Game.join_new_game(user) }
+
+
+        it 'returns the game with the user joined to it' do
+          expect(game.players.map(&:user)).to include user
+        end
+
+        it 'returns the game with the user in a starting city' do
+          expect(game.cities.map { |city| city.player.user } ).to include user
+        end
       end
 
     end
@@ -95,84 +111,23 @@ RSpec.describe Skirmish::Game, :type => :model do
 
     end
 
+    describe '#award_random_barbarian_city' do
+      it 'awards a random barbarian city to the player' do
+        barbarian = Skirmish::Factories::Player.make(barbarian: true)
+        player = Skirmish::Factories::Player.make({}, 0)
+
+        @game.add_player barbarian
+
+        @game.award_random_barbarian_city player
+        expect(@game.cities.map(&:player)).to include player
+      end
+    end
+
 
     it 'creates a new game ready to be joined' do
       expect(Skirmish::GameSetup).to receive(:setup_new_game_state)
       Skirmish::Game.make
     end
-
-  #   context 'when board isnt full' do
-
-  #     it 'if game has bnarbarians ' do
-  #       @game.cities.first.player.barbarian = true
-  #       expect(@game.full?).to eq(false)
-  #     end
-
-  #     it 'if board not full, send last board' do
-  #       allow(@game).to receive(:full?).and_return(false)
-  #       expect(Skirmish::Game).to receive(:setup_in_latest_game)
-  #       Skirmish::Game.allocate_game(1)
-  #     end
-
-  #   end
-
-  #   context 'board full' do
-
-  #     it 'all cities are not barbarians' do
-  #       expect(@game.full?).to eq(true)
-  #     end
-
-  #     it 'if board full, setup_new_match' do
-  #       allow(@game).to receive(:full?).and_return(true)
-  #       expect(Skirmish::Game).to receive(:setup_new_game)
-  #       Skirmish::Game.allocate_game(1)
-  #     end
-
-  #   end
-
-  #   context 'no board' do
-
-  #     it 'when no match, setup_new_match' do
-  #       allow(@match).to receive(:exists?).and_return(false)
-  #       expect(Skirmish::Game).to receive(:setup_new_game)
-  #       Skirmish::Game.allocate_game(1)
-  #     end
-
-  #   end
-
-  #   describe 'setup in latest game' do
-
-  #     it 'adds current player to latest game' do
-  #       stub_model(Skirmish::Game)
-  #       allow(Skirmish::Game).to receive(:already_playing).and_return(false)
-  #       expect(Skirmish::Game).to receive(:put_user_in_random_city)
-  #       Skirmish::Game.allocate_game(1)
-  #     end
-
-  #     it ''
-
-
-
-
-  #     pending it 'puts a user in a random starting city' do
-  #       # stub_model(Skirmish::Cities)
-  #       # stub_model(Skirmish::Player)
-
-  #       latest_game = Skirmish::Game.create
-  #       player = Skirmish::Player.create(barbarian:true)
-  #       latest_game.players << player
-  #       player.cities << Skirmish::City.create
-
-  #       user_id = -10
-  #       Skirmish::Game.setup_in_latest_game(user_id)
-
-
-
-  #       expect().to eq(Skirmish::Game.last)
-
-  #     end
-
-  #   end
 
   end
 end

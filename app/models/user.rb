@@ -7,6 +7,6 @@ class User < ActiveRecord::Base
   has_one :player, class_name: 'Skirmish::Player'
 
   def create_player
-    self.player = Skirmish::Player.create
+    self.player = Skirmish::Player.create(name: username)
   end
 end

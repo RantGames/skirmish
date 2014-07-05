@@ -7,6 +7,8 @@ class Skirmish::Game < ActiveRecord::Base
 
     game = allocate_game
     game.add_player player
+    game.award_random_barbarian_city player
+    game.save
     game
   end
 
@@ -35,6 +37,12 @@ class Skirmish::Game < ActiveRecord::Base
     end
   end
 
+  def award_random_barbarian_city(player)
+    city_to_award = random_barbarian_city
+    city_to_award.player = player
+    player.cities << city_to_award
+  end
+
   def full?
     self.cities.all? {|city| !city.player.barbarian}
   end
@@ -43,28 +51,18 @@ class Skirmish::Game < ActiveRecord::Base
     self.players.map(&:cities).flatten
   end
 
-  # def self.setup_new_game(user_id)
-  #   Skirmish::GameSetup.setup_new_game_state
-  #   self.setup_in_latest_game(user_id)
-  # end
-
-  # def self.setup_in_latest_game(user_id)
-  #   latest = Skirmish::Game.last
-  #   put_user_in_random_city(latest, user_id) if not_playing?(latest, user_id)
-  #   latest
-  # end
-
-  def self.put_user_in_random_city(latest_game, user_id)
-    available_cities = latest_game.cities.select {|city| p city.player.barbarian}
-    p latest_game.cities
-    p available_cities
-    available_cities.sample.player_id = user_id
-  end
-
   private
 
   def self.not_playing?(latest, user_id)
     latest.cities.all? {|city| city.player.id != user_id}
+  end
+
+  def random_barbarian_city
+    barbarian_cities.sample
+  end
+
+  def barbarian_cities
+    cities.select { |city| city.player.barbarian }
   end
 
 end

@@ -1,4 +1,6 @@
+require 'skirmish/factories'
 require 'skirmish/city_list'
+
 
 module Skirmish::GameSetup
 
@@ -25,9 +27,8 @@ module Skirmish::GameSetup
   end
 
   def self.setup_cities(barbarian)
-    city_list = Skirmish::CityList.random_cities(
-      CITY_MIN_POPULATION,
-      ANGLE_LAT_LONG)
+    city_list = Skirmish::CityList.random_cities(CITY_MIN_POPULATION,ANGLE_LAT_LONG)
+
     city_list.each do |city|
       barbarian.cities << Skirmish::Factories::City.make(
         {

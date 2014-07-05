@@ -32,7 +32,11 @@ RSpec.describe GameStateController, :type => :controller do
     describe "GET 'new'" do
 
       before do
-        sign_in(double(:user,id:1))
+        sign_in(User.create(
+            email: 'foo@bar.org',
+            password: 'swordfish',
+            password_confirmation: 'swordfish'
+          ))
         get 'new'
       end
 

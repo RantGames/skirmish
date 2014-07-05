@@ -1,3 +1,5 @@
+require 'skirmish/game_setup'
+
 class GameStateController < ApplicationController
   def show
     render json: Skirmish::Game.find(params[:id])
@@ -5,7 +7,7 @@ class GameStateController < ApplicationController
 
   def new
     if user_signed_in?
-      render json: Skirmish::Game.allocate_game(current_user)
+      render json: Skirmish::Game.join_new_game(current_user)
     else
       # return error to front end
     end
