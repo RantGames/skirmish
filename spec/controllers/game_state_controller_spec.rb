@@ -8,11 +8,16 @@ RSpec.describe GameStateController, :type => :controller do
     before do
       @game = Skirmish::Game.create
       @game.players = [Skirmish::Factories::Player.make]
-      expect(Skirmish::Game).to receive(:find).and_return(@game)
-      get 'show', :id => 1
+      allow(Skirmish::Game).to receive(:find).and_return(@game)
+
     end
 
     describe "GET 'show'" do
+
+      before do
+        get 'show', :id => 1
+      end
+
       it 'returns http success' do
         expect(response).to be_success
       end
