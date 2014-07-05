@@ -6,18 +6,25 @@ RSpec.describe 'setup player in game' do
 
   describe 'new game' do
 
+    before do
+      stub_model(Skirmish::Game)
+      stub_model(Skirmish::City)
+      @game = Skirmish::GameSetup.setup_new_game_state
+    end
+
     it 'populates a game with one barbarian player' do
-      game = Skirmish::GameSetup.setup_new_game_state
-      expect(game.players.map(&:id)).to eq([1])
+      players = @game.players
+      expect(players.map(&:id)).to eq([1])
+      expect(players.map(&:name)).to eq([Skirmish::GameSetup::BARBARIAN_NAME])
+    end
+
+    pending it 'adds cities to game' do
+      pattern = ''
+      expect(@game.cities.to_json).to match_json_expression(pattern)
     end
 
 
-
   end
-
-
-
-
 
   describe 'setup in latest game' do
 
