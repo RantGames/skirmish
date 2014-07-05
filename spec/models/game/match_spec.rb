@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Skirmish::Game, :type => :model do
   it { should have_many :players }
-  it { should have_many :turns}
 end
 
 describe 'allocate match' do
@@ -10,7 +9,6 @@ describe 'allocate match' do
   before do
     @match1 = Skirmish::Game.new
     @match1.players = [Skirmish::Factories::Player.make]
-
     allow(Skirmish::Game).to receive(:last).and_return(@match1)
   end
 
