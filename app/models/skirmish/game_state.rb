@@ -55,6 +55,10 @@ class Skirmish::GameState
     Skirmish::GameState.new(match.players)
   end
 
+  def self.to_json
+    @game.to_json
+  end
+
 private
   def assert_game_ids_same(players, game_id)
     players.each do |p|
