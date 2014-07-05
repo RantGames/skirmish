@@ -3,15 +3,15 @@ class Skirmish::Game < ActiveRecord::Base
   has_many :turns
 
   def self.allocate_game
-    if !self.exists? || self.last.not_full?
+    if !self.exists? || self.last.full?
       self.setup_new_game_state
     else
-      self.setup_new_game_state
+      self.setup_in_latest_match
     end
   end
 
-  def not_full?
-    self.cities.all? {|city| city.id == nil}
+  def full?
+    self.cities.all? {|city| city.id != nil}
   end
 
   def cities
