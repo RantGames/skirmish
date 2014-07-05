@@ -14,8 +14,9 @@ describe Skirmish::GameState do
     @wellington = Skirmish::City.create(name: 'Wellington', latitude: -41.2443701, longitude: 174.7618546)
     @ubermouse.cities << @wellington
     @players = [@ubermouse, Skirmish::Factories::Player.make]
+    @game.players = @players
 
-    @game_state = Skirmish::GameState.new(@players)
+    @game_state = Skirmish::GameState.new(@game)
   end
 
   pending it 'can convert game_state to json given id' do
