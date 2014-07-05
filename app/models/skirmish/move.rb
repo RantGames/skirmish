@@ -9,4 +9,8 @@ class Skirmish::Move < ActiveRecord::Base
   def process(game_state)
     Skirmish::MoveProcessors.process_move(self, game_state)
   end
+
+  def validate(game_state)
+    Skirmish::MoveValidators.validate(self, game_state)
+  end
 end
