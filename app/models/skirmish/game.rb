@@ -11,7 +11,7 @@ class Skirmish::Game < ActiveRecord::Base
   end
 
   def not_full?
-    self.cities.all? {|city| city.id != nil}
+    self.cities.all? {|city| city.id == nil}
   end
 
   def cities

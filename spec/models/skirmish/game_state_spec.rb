@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'game/factories'
+require 'skirmish/factories'
 
 describe Skirmish::GameState do
 

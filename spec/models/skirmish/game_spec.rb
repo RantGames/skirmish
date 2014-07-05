@@ -18,11 +18,11 @@ describe 'allocate match' do
 
     it 'game has cities with no player id' do
       @game.players.map(&:cities)[0][0].id = nil
-      expect(@game.full?).to eq(false)
+      expect(@game.not_full?).to eq(true)
     end
 
     it 'if board not full, send last board' do
-      allow(@game).to receive(:full?).and_return(false)
+      allow(@game).to receive(:not_full?).and_return(true)
       Skirmish::Game.should_receive(:setup_in_latest_match)
       Skirmish::Game.allocate_game
     end
@@ -32,11 +32,11 @@ describe 'allocate match' do
   context 'board full' do
 
     it 'game has no cities with no player id' do
-      expect(@game.full?).to eq(true)
+      expect(@game.not_full?).to eq(true)
     end
 
     it 'if board full, setup_new_match' do
-      allow(@game).to receive(:full?).and_return(true)
+      allow(@game).to receive(:not_full?).and_return(false)
       Skirmish::Game.should_receive(:setup_new_game_state)
       Skirmish::Game.allocate_game
     end
