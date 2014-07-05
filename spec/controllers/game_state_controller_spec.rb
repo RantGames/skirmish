@@ -32,6 +32,7 @@ RSpec.describe GameStateController, :type => :controller do
     describe "GET 'new'" do
 
       before do
+        sign_in(double(:user,id:1))
         get 'new'
       end
 
