@@ -12,8 +12,12 @@ class MoveController < ApplicationController
                     origin_id: move['origin_id'],
                     target_id: move['target_id'])
 
-    if move.validate(game_state) && move.save
+    error_message = move.validate(game_state)
+
+    if error_message.empty? && move.save
       render json: {message: 'Move created'}
+    elsif not error_message.empty?
+      render json: {message: "Error occurred processing move: #{error_message}"}
     else
       render json: {message: 'There was a problem creating your move'}
     end
