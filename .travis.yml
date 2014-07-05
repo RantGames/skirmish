@@ -11,3 +11,11 @@ branches:
     - develop
     - master
 
+install: "curl https://raw.github.com/Fingertips/WAD/master/bin/wad | ruby"
+script: "bundle exec rake"
+env:
+  global:
+    - S3_BUCKET_NAME=skirmish-wad
+    - S3_REGION=us-west-2
+    - secure: "JkBQ5ZsHDUc8bvAQ6Q5ZOTplsQql8jQLHsqyMB39Pb1uJ8T6OfuNceQW31PPHmN+LHiQpi3x1mflymlHh+wffDHkdOTZAbjs51aIDxO3dHoUHsRHX9HBIaPgx+z32k80IllHiVLd7tWksS5FCJqGmrTaeg5OrE6ltGUX4c5QmOM="
+
