@@ -1,4 +1,4 @@
-dbrequire 'skirmish/factories'
+require 'skirmish/factories'
 
 game = Skirmish::Game.new
 
