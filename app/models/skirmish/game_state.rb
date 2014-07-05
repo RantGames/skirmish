@@ -1,23 +1,20 @@
-require 'game/state_modifiers'
+require 'skirmish/state_modifiers'
 
 class Skirmish::GameState
   attr_reader :players
-  attr_reader :match
+  attr_reader :game
   STATE_MODIFIERS = [Skirmish::StateModifiers::Turn, Skirmish::StateModifiers::Reinforcements]
 
-  def initialize(players)
-    @players = players
-    game_id = players[0].game_id
-
-    assert_game_ids_same(players, game_id)
-    @match = Skirmish::Game.find_by_id(game_id)
+  def initialize(game)
+    @game = game
+    @players = game.players
   end
 
   def advance_turn(only: nil)
     modifiers = STATE_MODIFIERS
     modifiers = filter_state_modifiers(modifiers, only)
     modifiers.each do |modifier|
-      modifier.process(@match, self)
+      modifier.process(@game, self)
     end
   end
 
@@ -58,6 +55,10 @@ class Skirmish::GameState
     Skirmish::GameState.new(match.players)
   end
 
+  def self.to_json
+    @game.to_json
+  end
+
 private
   def assert_game_ids_same(players, game_id)
     players.each do |p|
@@ -70,7 +71,6 @@ private
   def filter_state_modifiers(modifiers, only)
     modifiers = modifiers.select { |m| m.name == only.name } if only.present?
     modifiers
-
   end
 end
 
