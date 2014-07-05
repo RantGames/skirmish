@@ -11,6 +11,12 @@ class Skirmish::Move < ActiveRecord::Base
   end
 
   def validate(game_state)
-    Skirmish::MoveValidators.validate(self, game_state)
+    error_message = ''
+    begin
+      Skirmish::MoveValidators.validate(self, game_state)
+    rescue Skirmish::MoveValidators::MoveValidationError => e
+      error_message = e.message
+    end
+    error_message
   end
 end
