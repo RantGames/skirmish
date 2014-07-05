@@ -1,4 +1,4 @@
-require 'game/factories'
+require 'skirmish/factories'
 
 module Skirmish
   module StateModifiers
