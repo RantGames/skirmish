@@ -75,6 +75,20 @@ describe Skirmish::GameState do
         expect(wellington_units.first.id).to eq(@copenhagen_unit.id)
       end
     end
+
+    describe 'attack unit' do
+      before do
+        @enemy_unit = @game.players.last.cities.first.units.first
+        @turn = Skirmish::Turn.create(game_id: @game.id)
+        @turn.moves.create(player_id: @ubermouse.id, action: Skirmish::Move::ATTACK_UNIT, origin_id: @copenhagen_unit.id, target_id: @enemy_unit.id)
+      end
+
+      it 'attacks a targeted enemy unit and destroys either your unit or the enemy unit' do
+        @game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+
+        expect(@game_state.get_unit(@enemy_unit.id) == nil || @game_state.get_unit(@copenhagen_unit.id) == nil).to eq(true)
+      end
+    end
   end
 
 end

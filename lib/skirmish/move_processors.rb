@@ -1,3 +1,5 @@
+require 'skirmish/battle_simulator'
+
 module Skirmish::MoveProcessors
   class MoveUnit
     def self.process(move, game_state)
@@ -10,8 +12,24 @@ module Skirmish::MoveProcessors
     end
   end
 
+  class AttackUnit
+    def self.process(move, game_state)
+      attacking_unit = game_state.get_unit(move.origin_id)
+      defending_unit = game_state.get_unit(move.target_id)
+      winning_unit = Skirmish::BattleSimulator.resolve_battle(attacking_unit, defending_unit)
+
+      if winning_unit == attacking_unit
+        defending_unit.city.units << winning_unit
+        defending_unit.destroy
+      else
+        attacking_unit.destroy
+      end
+    end
+  end
+
   ACTION_TO_MOVE_PROCESSOR_MAPPINGS = {
-      'move_unit' => MoveUnit
+      'move_unit' => MoveUnit,
+      'attack_unit' => AttackUnit,
   }
 
   def self.process_move(move, game_state)
