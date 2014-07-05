@@ -41,7 +41,7 @@ RSpec.describe GameStateController, :type => :controller do
 
       it 'gets a board for logged in player with their id in it' do
         pending('Skirmish::Game#setup_new_game_state needs to be implemented')
-        expect(response.body).to include({id: @game.players.first.id}.to_json)
+        expect(response.body).to include({id: current_user.id}.to_json)
       end
 
     end

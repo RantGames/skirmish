@@ -19,7 +19,7 @@ class Skirmish::Game < ActiveRecord::Base
   end
 
   def self.setup_new_game_state
-    # Game::GameState.new() - with player id? - sort out 2 player start issue
+    # Skirmish::GameSetup.... - with player id? - sort out 2 player start issue
     self.setup_in_latest_match
   end
 

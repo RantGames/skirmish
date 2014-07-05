@@ -25,7 +25,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'devise'
 gem 'pusher'
 gem "active_model_serializers"
-
+gem 'cities'
+gem 'countries'
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
@@ -40,6 +41,7 @@ group :test, :development do
   gem 'pry-byebug'
   gem 'faker'
   gem 'json_expressions'
+  gem 'rspec-activemodel-mocks'
 end
 
 # Use ActiveModel has_secure_password
