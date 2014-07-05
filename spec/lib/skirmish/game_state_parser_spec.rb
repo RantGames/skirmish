@@ -1,5 +1,5 @@
-require 'game/game_state_parser'
-require 'game/factories'
+require 'skirmish/game_state_parser'
+require 'skirmish/factories'
 require 'rails_helper'
 
 describe Skirmish::GameStateParser do
