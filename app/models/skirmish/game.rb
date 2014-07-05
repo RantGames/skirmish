@@ -1,30 +1,68 @@
 class Skirmish::Game < ActiveRecord::Base
-  has_many :players
+  has_many :players, class_name: 'Skirmish::Player'
   has_many :turns
 
+  def self.join_new_game(user)
+    player = user.create_player
+
+    game = allocate_game
+    game.add_player player
+    game.award_random_barbarian_city player
+    game.save
+    game
+  end
+
+  def self.make
+    Skirmish::GameSetup.setup_new_game_state
+  end
+
+  def create_player_for_user(user)
+    # player = user.player.create
+  end
+
+  def add_player(player)
+    self.players << player
+  end
+
+  def self.last_game_full?
+    last.full?
+  end
+
+
   def self.allocate_game
-    if !self.exists? || self.last.full?
-      self.setup_new_game_state
+    if last_game_full?
+      Skirmish::Game.make
     else
-      self.setup_in_latest_match
+      Skirmish::Game.last
     end
   end
 
+  def award_random_barbarian_city(player)
+    city_to_award = random_barbarian_city
+    city_to_award.player = player
+    player.cities << city_to_award
+  end
+
   def full?
-    self.cities.all? {|city| city.id != nil}
+    self.cities.all? {|city| !city.player.barbarian}
   end
 
   def cities
     self.players.map(&:cities).flatten
   end
 
-  def self.setup_new_game_state
-    # Skirmish::GameSetup.... - with player id? - sort out 2 player start issue
-    self.setup_in_latest_match
+  private
+
+  def self.not_playing?(latest, user_id)
+    latest.cities.all? {|city| city.player.id != user_id}
   end
 
-  def self.setup_in_latest_match
-    # allocate user to randomly selected barbarian city(s)
+  def random_barbarian_city
+    barbarian_cities.sample
+  end
+
+  def barbarian_cities
+    cities.select { |city| city.player.barbarian }
   end
 
 end

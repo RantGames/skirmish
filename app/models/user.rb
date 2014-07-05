@@ -3,4 +3,10 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  has_one :player, class_name: 'Skirmish::Player'
+
+  def create_player
+    self.player = Skirmish::Player.create(name: username)
+  end
 end
