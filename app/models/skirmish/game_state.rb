@@ -51,9 +51,9 @@ class Skirmish::GameState
     GameState.new(parser.players)
   end
 
-  def self.from_match(game_id)
-    match = Game.find(game_id)
-    Skirmish::GameState.new(match.players)
+  def self.from_game(game_id)
+    match = Skirmish::Game.find(game_id)
+    Skirmish::GameState.new(match)
   end
 
   def self.to_json

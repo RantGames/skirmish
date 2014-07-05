@@ -2,22 +2,23 @@ class MoveController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    move = params[:move]
+    move_json = JSON.parse(params[:move])
     game_id = params[:game_id]
-    player = Player.find_by_user_id(current_user.id)
-    game_state = GameState.from_match game_id
-    move = Move.new(game_id: game_id,
+    player = Skirmish::Player.where(user_id: current_user.id, game_id: game_id).first
+    game_state = Skirmish::GameState.from_game game_id
+    move = Skirmish::Move.new(
                     player_id: player.id,
-                    action: move['action'],
-                    origin_id: move['origin_id'],
-                    target_id: move['target_id'])
+                    action: move_json['action'],
+                    origin_id: move_json['origin_id'],
+                    target_id: move_json['target_id'])
 
     error_message = move.validate(game_state)
 
     if error_message.empty? && move.save
+      Skirmish::Turn.add_move(move, game_state.game)
       render json: {message: 'Move created'}
     elsif not error_message.empty?
-      render json: {message: "Error occurred processing move: #{error_message}"}
+      render json: {message: "Error occurred processing move: #{error_message}"}, status: 422
     else
       render json: {message: 'There was a problem creating your move'}
     end
