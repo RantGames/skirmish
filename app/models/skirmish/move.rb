@@ -1,4 +1,5 @@
 require 'skirmish/move_processors'
+require 'skirmish/move_validators'
 
 class Skirmish::Move < ActiveRecord::Base
   belongs_to :player

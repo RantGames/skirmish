@@ -1,3 +1,4 @@
+require 'rails_helper'
 require 'skirmish/move_validators'
 
 describe Skirmish::MoveValidators do
