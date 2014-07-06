@@ -19,13 +19,13 @@ describe Skirmish::GameStateParser do
                         units: [
                             {
                                 id: 1,
-                                type: 'infantry',
+                                unit_type: 'infantry',
                                 attack: 1,
                                 defense: 1
                             },
                             {
                                 id: 2,
-                                type: 'infantry',
+                                unit_type: 'infantry',
                                 attack: 1,
                                 defense: 1
                             },
@@ -73,16 +73,20 @@ describe Skirmish::GameStateParser do
     parser.parse
 
     ubermouse = Skirmish::Player.new(id: 1, name: 'ubermouse')
-    copenhagen = Skirmish::City.new(id: 1, name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
+    copenhagen = Skirmish::City.new(id: 1, name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388, population: 1_969_941)
     copenhagen.units << Skirmish::Factories::Unit.make(id: 1)
     copenhagen.units << Skirmish::Factories::Unit.make(id: 2)
+    ubermouse.cities << copenhagen
 
-    widdershin = Skirmish::Player.new(id: 2, name: 'Widdershin')
-    wellington = Skirmish::City.new(id: 3, name: 'Wellington', latitude: -41.2443701, longitude: 174.7618546)
+    widdershin = Skirmish::Player.new(id: 2, name: 'widdershin')
+    wellington = Skirmish::City.new(id: 2, name: 'Wellington', latitude: -41.2443701, longitude: 174.7618546, population: 200_000)
     wellington.units << Skirmish::Factories::Unit.make(id: 3)
     wellington.units << Skirmish::Factories::Unit.make(id: 4)
     wellington.units << Skirmish::Factories::Unit.make(id: 5)
+    widdershin.cities << wellington
 
-    expect(parser.players).to eq([ubermouse, widdershin])
+    players = [ubermouse, widdershin]
+
+    expect(parser.players).to eq(players)
   end
 end

@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'skirmish/factories'
+require 'game_state_loader'
 
 describe Skirmish::GameState do
 
@@ -36,20 +37,12 @@ describe Skirmish::GameState do
   describe 'processing moves' do
     describe 'move unit' do
       before do
-        @turn = Skirmish::Turn.create(game_id: @game.id)
-        move = Skirmish::Move.new(player_id: @ubermouse.id, action: Skirmish::Move::MOVE_UNIT, target_id: @wellington.id)
-        move.move_origins.new(origin_id: @copenhagen_unit.id)
-        @turn.moves << move
+        @initial_game_state, @expected_game_state = GameStateLoader.parse 'spec/yml_states/test_move.yml'
       end
 
       it 'lets you move a unit to another city' do
-        @game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
-
-        copenhagen_units = @game_state.units_for_city(@copenhagen.id)
-        wellington_units = @game_state.units_for_city(@wellington.id)
-
-        expect(copenhagen_units.length).to eq(0)
-        expect(wellington_units.first.id).to eq(@copenhagen_unit.id)
+        @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+        expect(@initial_game_state).to eq(@expected_game_state)
       end
     end
 
