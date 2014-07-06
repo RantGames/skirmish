@@ -9,8 +9,10 @@ class MoveController < ApplicationController
     move = Skirmish::Move.new(
                     player_id: player.id,
                     action: move_json['action'],
-                    origin_id: move_json['origin_id'],
                     target_id: move_json['target_id'])
+    move_json['origin_ids'].each do |id|
+      move.move_origins.new(origin_id: id)
+    end
 
     error_message = move.validate(game_state)
 
