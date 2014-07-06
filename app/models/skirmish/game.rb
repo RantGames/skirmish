@@ -53,8 +53,8 @@ class Skirmish::Game < ActiveRecord::Base
 
   private
 
-  def self.not_playing?(latest, user_id)
-    latest.cities.all? {|city| city.player.id != user_id}
+  def self.player_in_a_game?(user)
+    all.map(&:players).flatten.include?(user.player)
   end
 
   def random_barbarian_city
