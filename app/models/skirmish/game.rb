@@ -1,3 +1,5 @@
+require 'skirmish/game_setup'
+
 class Skirmish::Game < ActiveRecord::Base
   has_many :players, class_name: 'Skirmish::Player'
   has_many :turns, class_name: 'Skirmish::Turn'
