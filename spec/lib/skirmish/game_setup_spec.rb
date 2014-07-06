@@ -31,8 +31,13 @@ RSpec.describe 'setup player in game' do
       expect(@players[0].cities.map(&:name)).to eq(["Westport","Christchurch"])
     end
 
+    it 'saves a new game' do
+      allow(Skirmish::GameSetup).to receive(:add_new_barbarian)
+      allow(Skirmish::GameSetup).to receive(:setup_cities)
+      expect_any_instance_of(Skirmish::Game).to receive(:save)
+      Skirmish::GameSetup.setup_new_game_state
+    end
+
   end
-
-
 
 end

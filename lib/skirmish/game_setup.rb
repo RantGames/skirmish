@@ -13,6 +13,7 @@ module Skirmish::GameSetup
     game = Skirmish::Game.new
     barbarian = add_new_barbarian(game)
     setup_cities(barbarian)
+    game.save
     game
   end
 
