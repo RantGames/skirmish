@@ -7,12 +7,12 @@ class Skirmish::Game < ActiveRecord::Base
   def self.join_new_game(user)
     player = user.create_player
     player.save
-    player.reload
+    # player.reload
     game = allocate_game
     game.add_player player
     game.award_random_barbarian_city player
     game.save
-    game.reload
+    # game.reload
     game
   end
 
@@ -22,6 +22,7 @@ class Skirmish::Game < ActiveRecord::Base
 
   def add_player(player)
     self.players << player
+    self.save
   end
 
   def self.needs_new_game?
@@ -43,7 +44,9 @@ class Skirmish::Game < ActiveRecord::Base
   def award_random_barbarian_city(player)
     city_to_award = random_barbarian_city
     city_to_award.player = player
+    city_to_award.save
     player.cities << city_to_award
+    player.save
   end
 
   def full?
