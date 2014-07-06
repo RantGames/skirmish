@@ -54,7 +54,6 @@ RSpec.describe GameStateController, :type => :controller do
         end
 
         it 'gets a board for logged in user with a new player_id in it' do
-        pending('works in practice, not in test - may be activerecord related')
           game_state = JSON.parse(response.body)
           ids = game_state['game']['players'].map{|player| player['id']}
           expect(ids).to include(user.players.last.id)
