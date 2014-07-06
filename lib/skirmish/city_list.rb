@@ -1,15 +1,21 @@
 module Skirmish::CityList
 
-  def self.random_cities(min_population, angle)
-    cities = select_us_cities(min_population)
-    random_city = cities[SecureRandom.random_number(cities.length)]
-    citylist = cities.select do |city|
-      (city.latitude - random_city.latitude).abs < angle &&
-      (city.longitude - random_city.longitude).abs < angle
+  def self.random_cities(min_population, angle_lat_long)
+
+    @cities = select_us_cities(min_population)
+    random_city = @cities[SecureRandom.random_number(@cities.length)]
+    citylist = @cities.select do |city|
+      (city.latitude - random_city.latitude).abs < angle_lat_long &&
+      (city.longitude - random_city.longitude).abs < angle_lat_long
     end
   end
 
   private
+
+  def knockout_cities(citylist)
+
+
+  end
 
   def self.select_us_cities(population_minimum)
     cities = get_country_cities.select do |city|
