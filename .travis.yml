@@ -5,6 +5,7 @@ rvm:
 before_script:
   - cp config/database.yml.travis config/database.yml
   - bundle exec rake db:setup
+  - pull_city_data.sh
 # whitelist
 branches:
   only:
