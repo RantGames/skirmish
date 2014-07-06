@@ -6,11 +6,13 @@ class Skirmish::Game < ActiveRecord::Base
 
   def self.join_new_game(user)
     player = user.create_player
+    player.save
+    player.reload
     game = allocate_game
     game.add_player player
     game.award_random_barbarian_city player
-    player.save
     game.save
+    game.reload
     game
   end
 
