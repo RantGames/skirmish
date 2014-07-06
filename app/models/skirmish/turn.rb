@@ -5,6 +5,10 @@ class Skirmish::Turn < ActiveRecord::Base
   def self.add_move(move, game)
     turn = current_turn_for_game(game)
     turn.moves << move
+
+    if game.player_count == turn.moves.count
+      Skirmish::Game.process_turn(self)
+    end
   end
 
   def self.current_turn_for_game(game)
