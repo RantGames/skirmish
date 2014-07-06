@@ -1,15 +1,22 @@
 require 'skirmish/game_setup'
 
 class GameStateController < ApplicationController
+  before_filter :authenticate_user!
   def show
-    render json: Skirmish::Game.find(params[:id])
+    if current_user.is_in_a_game?
+      render json: current_user.current_game
+    else
+      render nothing: true, status: 403
+    end
+
   end
 
   def new
-    if user_signed_in?
-      render json: Skirmish::Game.join_new_game(current_user)
+    if current_user.is_in_a_game?
+      render nothing: true, status: 403
     else
-      # return error to front end
+      render json: Skirmish::Game.join_new_game(current_user)
     end
   end
+
 end

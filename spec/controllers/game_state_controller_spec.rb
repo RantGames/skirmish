@@ -5,6 +5,12 @@ require 'pp'
 
 RSpec.describe GameStateController, :type => :controller do
 
+  let(:user) {User.create(
+          email: 'foo@bar.org',
+          password: 'swordfish',
+          password_confirmation: 'swordfish'
+        )}
+
   describe 'show' do
 
     before do
@@ -15,6 +21,13 @@ RSpec.describe GameStateController, :type => :controller do
     end
 
     describe "GET 'show'" do
+
+      before do
+        allow(user).to receive(:current_game).and_return(@game)
+        sign_in(user)
+        get 'show'
+      end
+
       it 'returns http success' do
         expect(response).to be_success
       end
@@ -28,27 +41,35 @@ RSpec.describe GameStateController, :type => :controller do
 
     describe "GET 'new'" do
 
-      before do
-        @user = User.create(
-            email: 'foo@bar.org',
-            password: 'swordfish',
-            password_confirmation: 'swordfish'
-          )
-        sign_in(@user)
-        get 'new'
+      context 'gets new game state' do
+
+        before do
+          sign_in(user)
+          get 'new'
+        end
+
+        it 'returns http success' do
+          expect(response).to be_success
+        end
+
+        it 'gets a board for logged in player with their player_id in it' do
+          game_state = JSON.parse(response.body)
+          ids = game_state['game']['players'].map{|player| player['id']}
+          expect(ids).to include(user.player.id)
+        end
+
       end
 
-      it 'returns http success' do
-        expect(response).to be_success
+      context 'doesnt get new game state' do
+
+        it 'returns error if user already in game' do
+          sign_in(user)
+          allow(user).to receive(:is_in_a_game?).and_return(true)
+          get 'new'
+          expect(response).to be_forbidden
+        end
+
       end
-
-      it 'gets a board for logged in player with their player_id in it' do
-        game_state = JSON.parse(response.body)
-        ids = game_state['game']['players'].map{|player| player['id']}
-        expect(ids).to include(@user.player.id)
-      end
-
-
 
     end
 

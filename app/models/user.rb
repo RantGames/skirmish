@@ -9,4 +9,17 @@ class User < ActiveRecord::Base
   def create_player
     self.player = Skirmish::Player.create(name: username)
   end
+
+  def current_game
+    if player.present?
+      player.game
+    else
+      nil
+    end
+  end
+
+  def is_in_a_game?
+    current_game != nil
+  end
+
 end
