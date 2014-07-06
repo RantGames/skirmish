@@ -1,5 +1,7 @@
 require 'rails_helper'
 require 'skirmish/factories'
+require 'json'
+require 'pp'
 
 RSpec.describe GameStateController, :type => :controller do
 
@@ -32,11 +34,12 @@ RSpec.describe GameStateController, :type => :controller do
     describe "GET 'new'" do
 
       before do
-        sign_in(User.create(
+        @user = User.create(
             email: 'foo@bar.org',
             password: 'swordfish',
             password_confirmation: 'swordfish'
-          ))
+          )
+        sign_in(@user)
         get 'new'
       end
 
@@ -44,10 +47,13 @@ RSpec.describe GameStateController, :type => :controller do
         expect(response).to be_success
       end
 
-      it 'gets a board for logged in player with their id in it' do
-        pending('Skirmish::Game#setup_new_game_state needs to be implemented')
-        expect(response.body).to include({id: current_user.id}.to_json)
+      it 'gets a board for logged in player with their player_id in it' do
+        game_state = JSON.parse(response.body)
+        ids = game_state['game']['players'].map{|player| player['id']}
+        expect(ids).to include(@user.player.id)
       end
+
+
 
     end
 
