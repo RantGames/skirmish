@@ -3,23 +3,21 @@ require 'skirmish/battle_simulator'
 module Skirmish::MoveProcessors
   class MoveUnit
     def self.process(move, game_state)
-      unit_to_move = game_state.get_unit(move.origin_id)
+      units_to_move = game_state.get_units(move.origin_ids)
       city_to_move_to = game_state.get_city(move.target_id)
-      city_to_move_to.units << unit_to_move
+      city_to_move_to.units << units_to_move
     end
   end
 
   class AttackUnit
     def self.process(move, game_state)
-      attacking_unit = game_state.get_unit(move.origin_id)
-      defending_unit = game_state.get_unit(move.target_id)
-      winning_unit = Skirmish::BattleSimulator.resolve_battle(attacking_unit, defending_unit)
+      attacking_units = game_state.get_units(move.origin_ids)
+      defending_city = game_state.get_city(move.target_id)
+      result = Skirmish::BattleSimulator.resolve_battle(attacking_units, defending_city)
 
-      if winning_unit == attacking_unit
-        defending_unit.city.units << winning_unit
-        defending_unit.destroy
-      else
-        attacking_unit.destroy
+      if result.attacker_won?
+        defending_city.units << attacking_units
+        defending_city.player_id = move.player_id
       end
     end
   end

@@ -37,7 +37,9 @@ describe Skirmish::GameState do
     describe 'move unit' do
       before do
         @turn = Skirmish::Turn.create(game_id: @game.id)
-        @turn.moves.create(player_id: @ubermouse.id, action: Skirmish::Move::MOVE_UNIT, origin_id: @copenhagen_unit.id, target_id: @wellington.id)
+        move = Skirmish::Move.new(player_id: @ubermouse.id, action: Skirmish::Move::MOVE_UNIT, target_id: @wellington.id)
+        move.move_origins.new(origin_id: @copenhagen_unit.id)
+        @turn.moves << move
       end
 
       it 'lets you move a unit to another city' do
@@ -53,15 +55,17 @@ describe Skirmish::GameState do
 
     describe 'attack unit' do
       before do
-        @enemy_unit = @game.players.last.cities.first.units.first
+        @enemy_city = @game.players.last.cities.first
         @turn = Skirmish::Turn.create(game_id: @game.id)
-        @turn.moves.create(player_id: @ubermouse.id, action: Skirmish::Move::ATTACK_UNIT, origin_id: @copenhagen_unit.id, target_id: @enemy_unit.id)
+        move = Skirmish::Move.new(player_id: @ubermouse.id, action: Skirmish::Move::ATTACK_UNIT, target_id: @enemy_city.id)
+        move.move_origins.new(origin_id: @copenhagen_unit.id)
+        @turn.moves << move
       end
 
       it 'attacks a targeted enemy unit and destroys either your unit or the enemy unit' do
         @game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
 
-        expect(@game_state.get_unit(@enemy_unit.id) == nil || @game_state.get_unit(@copenhagen_unit.id) == nil).to eq(true)
+        expect(@game_state.get_city(@enemy_city.id).units.empty? || @game_state.get_unit(@copenhagen_unit.id) == nil).to eq(true)
       end
     end
   end
