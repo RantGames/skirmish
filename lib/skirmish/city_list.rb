@@ -12,11 +12,6 @@ module Skirmish::CityList
 
   private
 
-  def knockout_cities(citylist)
-
-
-  end
-
   def self.select_us_cities(population_minimum)
     cities = get_country_cities.select do |city|
       city.population.to_i >= population_minimum
