@@ -30,6 +30,11 @@ class Skirmish::GameState
     Skirmish::Unit.find_by_id(unit_id)
   end
 
+  def get_units(unit_ids)
+    unit_ids.map{|id| get_unit(id)}
+  end
+
+
   def cities_for_player(id)
     get_player(id).cities
   end

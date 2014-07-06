@@ -18,7 +18,7 @@ describe MoveController, :type => :controller do
       @move = {
                player_id: @p1_id,
                action: Skirmish::Move::MOVE_UNIT,
-               origin_id: @game_state.units_for_player(@p1_id).first.id,
+               origin_ids: [@game_state.units_for_player(@p1_id).first.id],
                target_id: @game_state.cities_for_player(@p1_id).last.id
               }
     end

@@ -2,7 +2,7 @@ require 'skirmish/game_setup'
 
 class Skirmish::Game < ActiveRecord::Base
   has_many :players, class_name: 'Skirmish::Player'
-  has_many :turns
+  has_many :turns, class_name: 'Skirmish::Turn'
 
   def self.join_new_game(user)
     player = user.create_player
@@ -39,6 +39,10 @@ class Skirmish::Game < ActiveRecord::Base
     end
   end
 
+  def player_count
+    players.select{|p| not p.barbarian}.count
+  end
+
   def award_random_barbarian_city(player)
     city_to_award = random_barbarian_city
     city_to_award.player = player
@@ -51,6 +55,12 @@ class Skirmish::Game < ActiveRecord::Base
 
   def cities
     self.players.map(&:cities).flatten
+  end
+
+  def self.process_turn(turn)
+    game_state = Skirmish::GameState.from_game(turn.game.id)
+    game_state.advance_turn
+    ClientNotifier.push_state_notice
   end
 
   private
