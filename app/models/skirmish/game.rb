@@ -6,10 +6,10 @@ class Skirmish::Game < ActiveRecord::Base
 
   def self.join_new_game(user)
     player = user.create_player
-
     game = allocate_game
     game.add_player player
     game.award_random_barbarian_city player
+    player.save
     game.save
     game
   end
@@ -18,21 +18,16 @@ class Skirmish::Game < ActiveRecord::Base
     Skirmish::GameSetup.setup_new_game_state
   end
 
-  def create_player_for_user(user)
-    # player = user.player.create
-  end
-
   def add_player(player)
     self.players << player
   end
 
-  def self.last_game_full?
-    last.full?
+  def self.needs_new_game?
+    all.empty? || last.full?
   end
 
-
   def self.allocate_game
-    if last_game_full?
+    if needs_new_game?
       Skirmish::Game.make
     else
       Skirmish::Game.last
@@ -51,6 +46,14 @@ class Skirmish::Game < ActiveRecord::Base
 
   def full?
     self.cities.all? {|city| !city.player.barbarian}
+  end
+
+  def self.is_user_in_latest_game?(current_user)
+    if all.empty?
+      false
+    else
+      Skirmish::Game.last.players.any? {|player| player.user_id == current_user.id}
+    end
   end
 
   def cities

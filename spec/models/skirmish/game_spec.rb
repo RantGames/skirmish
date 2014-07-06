@@ -75,7 +75,7 @@ RSpec.describe Skirmish::Game, :type => :model do
     describe '##allocate_game' do
       context 'when the latest game has available spots' do
         before do
-          allow(Skirmish::Game).to receive(:last_game_full?).and_return(false)
+          allow(Skirmish::Game).to receive(:needs_new_game?).and_return(false)
         end
 
         it 'gives the latest game' do
@@ -83,9 +83,10 @@ RSpec.describe Skirmish::Game, :type => :model do
           expect(allocated_game).to eq @game
         end
       end
+
       context 'when the latest game is full' do
         before do
-          allow(Skirmish::Game).to receive(:last_game_full?).and_return(true)
+          allow(Skirmish::Game).to receive(:needs_new_game?).and_return(true)
         end
 
         it 'returns a newly created game' do
@@ -96,19 +97,28 @@ RSpec.describe Skirmish::Game, :type => :model do
 
           expect(allocated_game).to eq new_game
         end
-
       end
+
     end
 
-    describe '##last_game_full?' do
+    describe '##needs_new_game?' do
       let(:game) { double :game, full?: result }
       let(:result) { double :result }
 
-      it 'returns if the last game is full' do
+      before do
         allow(Skirmish::Game).to receive(:last).and_return(game)
-
-        expect(Skirmish::Game.last_game_full?).to eq result
       end
+
+      it 'returns true if there is no last game' do
+        Skirmish::Game.stub_chain(:all, :empty?).and_return(true)
+        expect(Skirmish::Game.needs_new_game?).to eq true
+      end
+
+      it 'returns true if the last game is full' do
+        Skirmish::Game.stub_chain(:all, :empty?).and_return(false)
+        expect(Skirmish::Game.needs_new_game?).to eq result
+      end
+
 
     end
 

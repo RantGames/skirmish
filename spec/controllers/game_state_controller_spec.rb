@@ -16,8 +16,7 @@ RSpec.describe GameStateController, :type => :controller do
     before do
       @game = Skirmish::Game.create
       @game.players = [Skirmish::Factories::Player.make]
-      expect(Skirmish::Game).to receive(:find).and_return(@game)
-      get 'show', :id => 1
+      allow(Skirmish::Game).to receive(:find).and_return(@game)
     end
 
     describe "GET 'show'" do
@@ -45,6 +44,7 @@ RSpec.describe GameStateController, :type => :controller do
       context 'gets new game state' do
 
         before do
+          Skirmish::Game.destroy_all
           sign_in(user)
           get 'new'
         end
@@ -56,7 +56,7 @@ RSpec.describe GameStateController, :type => :controller do
         it 'gets a board for logged in player with their player_id in it' do
           game_state = JSON.parse(response.body)
           ids = game_state['game']['players'].map{|player| player['id']}
-          expect(ids).to include(user.player.id)
+          expect(ids).to include(user.players.last.id)
         end
 
       end
@@ -65,7 +65,7 @@ RSpec.describe GameStateController, :type => :controller do
 
         it 'returns error if user already in game' do
           sign_in(user)
-          allow(user).to receive(:is_in_a_game?).and_return(true)
+          allow(Skirmish::Game).to receive(:is_user_in_latest_game?).with(user).and_return(true)
           get 'new'
           expect(response).to be_forbidden
         end
