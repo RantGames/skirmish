@@ -15,6 +15,11 @@ class Skirmish::GameState
     modifiers = filter_state_modifiers(modifiers, only)
     modifiers.each do |modifier|
       modifier.process(@game, self)
+      @game.save
+    end
+    # TODO: Replace filthy hack to get around stale state after turn processing
+    players.each do |p|
+      p.reload
     end
   end
 
@@ -63,6 +68,12 @@ class Skirmish::GameState
 
   def self.to_json
     @game.to_json
+  end
+
+  def ==(other)
+    return false unless other.is_a? Skirmish::GameState
+
+    other.players == players
   end
 
 private
