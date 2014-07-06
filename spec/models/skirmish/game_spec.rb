@@ -96,6 +96,7 @@ RSpec.describe Skirmish::Game, :type => :model do
 
           expect(allocated_game).to eq new_game
         end
+
       end
     end
 
