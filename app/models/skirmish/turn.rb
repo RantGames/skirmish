@@ -1,6 +1,6 @@
 class Skirmish::Turn < ActiveRecord::Base
   belongs_to :game, class_name: 'Skirmish::Game'
-  has_many :moves, class_name: 'Skirmish::Move'
+  has_many :moves, class_name: 'Skirmish::Move', dependent: :destroy
 
   def self.add_move(move, game)
     turn = current_turn_for_game(game)
@@ -11,8 +11,9 @@ class Skirmish::Turn < ActiveRecord::Base
     end
   end
 
+  # todo need test to ensure it returns the correct turn
   def self.current_turn_for_game(game)
-    turn = where(game_id: game.id).order('created_at DESC').limit(1).first
+    turn = where(game_id: game.id, completed: false).first
     turn ||= Skirmish::Turn.create(game_id: game.id)
     turn
   end

@@ -16,8 +16,13 @@ module Skirmish::MoveProcessors
       defending_city = game_state.get_city(move.target_id)
       result = Skirmish::BattleSimulator.resolve_battle(attacking_units, defending_city)
 
+      # todo fix hack to get around frozen objects
+      attacking_units = move.origin_ids.map{|id| game_state.get_unit(id)}.compact
       if result.attacker_won?
-        defending_city.units << attacking_units
+        # todo fix hack
+        attacking_units.each do |u|
+          u.city = defending_city
+        end
         defending_city.player_id = move.player_id
         defending_city.save
         attacking_units.each(&:save)
