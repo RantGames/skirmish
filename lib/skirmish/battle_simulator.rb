@@ -20,8 +20,10 @@ module Skirmish::BattleSimulator
       defender_roll = Random.rand(1..6)
       if attacker_roll > defender_roll
         defending_city.units.first.destroy
+        defending_city.units = defending_city.units.drop 1
       else
         attacking_units.first.destroy
+        attacking_units = attacking_units.drop 1
       end
     end
     BattleResult.new(defending_city.units.empty?, attacking_units.empty?)
