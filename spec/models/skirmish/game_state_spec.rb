@@ -2,10 +2,10 @@ require 'rails_helper'
 require 'skirmish/factories'
 require 'game_state_loader'
 
-describe Skirmish::GameState do
+describe Skirmish::GameState, :type => :model do
 
   before do
-    @game = Skirmish::Game.create(id: 1)
+    @game = Skirmish::Game.create
 
     @ubermouse = Skirmish::Player.create(game_id: @game.id, name: 'ubermouse')
     @copenhagen = Skirmish::City.create(name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
