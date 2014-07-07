@@ -25,7 +25,7 @@ describe MoveController, :type => :controller do
 
     context 'move is valid' do
       before do
-        post 'create', {game_id: @game.id, move: @move.to_json}
+        post 'create', {game_id: @game.id, move: @move, format: :json}
       end
 
       it 'returns 200 OK' do
@@ -47,7 +47,7 @@ describe MoveController, :type => :controller do
     context 'move is invalid' do
       before do
         @move[:target_id] = @game_state.cities_for_player(@p2_id).last.id
-        post 'create', {game_id: @game.id, move: @move.to_json}
+        post 'create', {game_id: @game.id, move: @move, format: :json}
       end
 
       it 'returns 422 Unprocessable Entity' do
