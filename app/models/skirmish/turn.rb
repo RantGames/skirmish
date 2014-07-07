@@ -7,7 +7,7 @@ class Skirmish::Turn < ActiveRecord::Base
     turn.moves << move
 
     if game.player_count == turn.moves.count
-      Skirmish::Game.process_turn(self)
+      Skirmish::Game.process_turn(turn)
     end
   end
 
