@@ -22,7 +22,6 @@ module Skirmish
         longitude: Faker::Address.longitude,
         population: rand(2_500_000)
         }.merge(args)
-
         city = Skirmish::City.create(attributes)
         num_units.times {
           city.units << Unit.make(city_id: city.id)
