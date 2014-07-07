@@ -16,10 +16,10 @@ module Skirmish
     class City
       def self.make(args = {}, num_units = 2)
         attributes = {
-        name: Faker::Address.city,
-        latitude: Faker::Address.latitude,
-        longitude: Faker::Address.longitude,
-        population: rand(2_500_000)
+            name: Faker::Address.city,
+            latitude: Faker::Address.latitude,
+            longitude: Faker::Address.longitude,
+            population: rand(2_500_000)
         }.merge(args)
         city = Skirmish::City.create(attributes)
         num_units.times {
@@ -57,6 +57,8 @@ module Skirmish
           game.players << Player.make({game_id: game.id}, num_cities_per_player, num_units_per_city)
         end
         game.save
+        #todo fix filthy hack to get around doubled players
+        game.reload
         game
       end
     end
