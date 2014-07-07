@@ -1,6 +1,6 @@
 class Skirmish::Turn < ActiveRecord::Base
   belongs_to :game, class_name: 'Skirmish::Game'
-  has_many :moves, class_name: 'Skirmish::Move'
+  has_many :moves, class_name: 'Skirmish::Move', dependent: :destroy
 
   def self.add_move(move, game)
     turn = current_turn_for_game(game)

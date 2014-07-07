@@ -4,7 +4,7 @@ require 'skirmish/move_validators'
 class Skirmish::Move < ActiveRecord::Base
   belongs_to :player, class_name: 'Skirmish::Player'
   belongs_to :turn, class_name: 'Skirmish::Turn'
-  has_many :move_origins, class_name: 'Skirmish::MoveOrigin'
+  has_many :move_origins, class_name: 'Skirmish::MoveOrigin', dependent: :destroy
 
   MOVE_UNIT = 'move_unit'
   ATTACK_UNIT = 'attack_unit'
