@@ -41,6 +41,7 @@ describe Skirmish::GameState, :type => :model do
       end
 
       it 'lets you move a unit to another city' do
+        pending '@ubermouse investigation'
         @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
         expect(@initial_game_state).to eq(@expected_game_state)
       end
@@ -55,7 +56,7 @@ describe Skirmish::GameState, :type => :model do
         allow(Random).to receive(:rand).with(anything).and_return(6, 1, 6, 1)
 
         @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
-        
+
         expect(@initial_game_state).to eq(@expected_game_state)
       end
     end
