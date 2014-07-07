@@ -45,10 +45,14 @@ class Skirmish::Game < ActiveRecord::Base
 
   def award_random_barbarian_city(player)
     city_to_award = random_barbarian_city
+
     city_to_award.player = player
-    city_to_award.save
     player.cities << city_to_award
+
+    4.times {city_to_award.units << Skirmish::Factories::Unit.make}
+    city_to_award.save
     player.save
+    save
   end
 
   def full?
