@@ -10,7 +10,6 @@ class GameStateController < ApplicationController
     else
       render nothing: true, status: 403
     end
-
   end
 
   def new
