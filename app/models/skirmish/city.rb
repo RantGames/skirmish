@@ -1,7 +1,7 @@
 require 'active_record_ignored_attributes'
 
 class Skirmish::City < ActiveRecord::Base
-  has_many :units, class_name: 'Skirmish::Unit'
+  has_many :units, class_name: 'Skirmish::Unit', dependent: :destroy
   belongs_to :player, class_name: 'Skirmish::Player'
 
   def self.ignored_attributes
