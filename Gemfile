@@ -30,6 +30,7 @@ gem 'countries'
 gem 'deep_merge'
 
 gem 'faker'
+gem 'active_record_ignored_attributes'
 
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -38,7 +39,6 @@ gem 'spring',        group: :development
 group :test, :development do
   gem 'dotenv-rails'
   gem 'database_cleaner'
-  gem 'active_record_ignored_attributes'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'pry-rails'
