@@ -1,4 +1,4 @@
 class Skirmish::GameSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :winner
   has_many :players
 end

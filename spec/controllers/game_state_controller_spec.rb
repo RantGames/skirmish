@@ -32,7 +32,7 @@ RSpec.describe GameStateController, :type => :controller do
       end
 
       it 'returns game_state in json' do
-        pattern = {'game' =>{'id' =>wildcard_matcher, 'players' =>[{'id' =>Fixnum, 'name' =>String, 'cities' =>[{'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[{'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}, {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]}, {'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[{'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}, {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]}]}]}}
+        pattern = {'game' =>{'id' =>wildcard_matcher, "winner"=>wildcard_matcher, 'players' =>[{'id' =>Fixnum, 'name' =>String, 'cities' =>[{'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[{'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}, {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]}, {'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[{'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}, {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]}]}]}}
         expect(response.body).to match_json_expression(pattern)
       end
 
