@@ -37,5 +37,5 @@ module Skirmish
 
   end
 end
-p Skirmish::StateModifiers
+
 
