@@ -16,14 +16,14 @@ module Skirmish::BattleSimulator
 
   def self.resolve_battle(attacking_units, defending_city)
     until attacking_units.empty? || defending_city.units.empty?
-      attacker_roll = rand(1..6)
-      defender_roll = rand(1..6)
+      attacker_roll = Random.rand(1..6)
+      defender_roll = Random.rand(1..6)
       if attacker_roll > defender_roll
         defending_city.units.first.destroy
       else
         attacking_units.first.destroy
       end
     end
-    BattleResult.new(attacking_units.empty?, defending_city.units.empty?)
+    BattleResult.new(defending_city.units.empty?, attacking_units.empty?)
   end
 end
