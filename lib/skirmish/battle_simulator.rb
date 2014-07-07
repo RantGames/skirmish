@@ -24,6 +24,6 @@ module Skirmish::BattleSimulator
         attacking_units.first.destroy
       end
     end
-    BattleResult.new(attacking_units.empty?, defending_city.units.empty?)
+    BattleResult.new(defending_city.units.empty?, attacking_units.empty?)
   end
 end

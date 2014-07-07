@@ -42,7 +42,7 @@ class GameStateLoader
       city_models << city_model
     end
 
-    city_models
+    city_models.select{|c| not c.name == 'remove'}
   end
 
   def self.parse_move(move, game_state)

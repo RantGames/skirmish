@@ -19,6 +19,8 @@ module Skirmish::MoveProcessors
       if result.attacker_won?
         defending_city.units << attacking_units
         defending_city.player_id = move.player_id
+        defending_city.save
+        attacking_units.each(&:save)
       end
     end
   end
