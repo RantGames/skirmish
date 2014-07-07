@@ -141,4 +141,27 @@ RSpec.describe Skirmish::Game, :type => :model do
     end
 
   end
+
+  describe 'winner' do
+
+    it 'is false by default' do
+      expect(Skirmish::Game.create.winner).to be_nil
+    end
+
+    it 'can be assigned' do
+      winner = double(Skirmish::Player)
+      game = Skirmish::Game.create
+      game.winner = winner
+      expect(game.winner).to eq(winner)
+    end
+
+  end
+
+  describe 'factory make' do
+    it 'has three players' do
+      expect(Skirmish::Factories::Game.make({},3,2,2).players.length).to eq(3)
+    end
+
+  end
+
 end

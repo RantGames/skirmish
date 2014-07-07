@@ -54,12 +54,10 @@ module Skirmish
     class Game
       def self.make(args = {}, num_players = 2, num_cities_per_player = 2, num_units_per_city = 2)
         attributes = args
-
         game = Skirmish::Game.create(attributes)
-        num_players.times {
+        num_players.times do
           game.players << Player.make({game_id: game.id}, num_cities_per_player, num_units_per_city)
-        }
-
+        end
         game.save
         game
       end
