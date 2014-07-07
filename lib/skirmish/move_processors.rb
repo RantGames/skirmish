@@ -6,6 +6,7 @@ module Skirmish::MoveProcessors
       units_to_move = game_state.get_units(move.origin_ids)
       city_to_move_to = game_state.get_city(move.target_id)
       city_to_move_to.units << units_to_move
+      city_to_move_to.save
     end
   end
 
@@ -18,6 +19,8 @@ module Skirmish::MoveProcessors
       if result.attacker_won?
         defending_city.units << attacking_units
         defending_city.player_id = move.player_id
+        defending_city.save
+        attacking_units.each(&:save)
       end
     end
   end

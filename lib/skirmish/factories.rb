@@ -59,6 +59,7 @@ module Skirmish
           game.players << Player.make({game_id: game.id}, num_cities_per_player, num_units_per_city)
         end
         game.save
+        game.reload
         game
       end
     end

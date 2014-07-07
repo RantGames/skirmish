@@ -1,0 +1,35 @@
+initial_state:
+  players:
+    - name: 'p1'
+      cities:
+        - name: 'Wellington'
+          units: 3
+        - name: 'Copenhagen'
+          units: 5
+    - name: 'p2'
+      cities:
+        - name: 'New York'
+          units: 1
+        - name: 'Christchurch'
+          units: 5
+
+moves:
+  - player: 1
+    target: 2
+    action: :attack
+    quantity: 2
+    from: 'Wellington'
+    to: 'New York'
+
+expected_state:
+  players:
+    - cities:
+      - units: 1
+      - units: 5
+      - name: 'New York'
+        units: 2
+    - cities:
+      - units: 5
+        name: 'Christchurch'
+      - name: 'remove'
+

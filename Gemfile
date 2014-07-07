@@ -24,9 +24,10 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'devise'
 gem 'pusher'
-gem "active_model_serializers"
+gem 'active_model_serializers'
 gem 'cities'
 gem 'countries'
+gem 'deep_merge'
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development

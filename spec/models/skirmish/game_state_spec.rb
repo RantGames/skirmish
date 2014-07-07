@@ -1,10 +1,11 @@
 require 'rails_helper'
 require 'skirmish/factories'
+require 'game_state_loader'
 
-describe Skirmish::GameState do
+describe Skirmish::GameState, :type => :model do
 
   before do
-    @game = Skirmish::Game.create(id: 1)
+    @game = Skirmish::Game.create
 
     @ubermouse = Skirmish::Player.create(game_id: @game.id, name: 'ubermouse')
     @copenhagen = Skirmish::City.create(name: 'Copenhagen', latitude: 55.6712674, longitude: 12.5608388)
@@ -36,36 +37,26 @@ describe Skirmish::GameState do
   describe 'processing moves' do
     describe 'move unit' do
       before do
-        @turn = Skirmish::Turn.create(game_id: @game.id)
-        move = Skirmish::Move.new(player_id: @ubermouse.id, action: Skirmish::Move::MOVE_UNIT, target_id: @wellington.id)
-        move.move_origins.new(origin_id: @copenhagen_unit.id)
-        @turn.moves << move
+        @initial_game_state, @expected_game_state = GameStateLoader.parse 'spec/yml_states/test_move.yml'
       end
 
       it 'lets you move a unit to another city' do
-        @game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
-
-        copenhagen_units = @game_state.units_for_city(@copenhagen.id)
-        wellington_units = @game_state.units_for_city(@wellington.id)
-
-        expect(copenhagen_units.length).to eq(0)
-        expect(wellington_units.first.id).to eq(@copenhagen_unit.id)
+        @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+        expect(@initial_game_state).to eq(@expected_game_state)
       end
     end
 
     describe 'attack unit' do
       before do
-        @enemy_city = @game.players.last.cities.first
-        @turn = Skirmish::Turn.create(game_id: @game.id)
-        move = Skirmish::Move.new(player_id: @ubermouse.id, action: Skirmish::Move::ATTACK_UNIT, target_id: @enemy_city.id)
-        move.move_origins.new(origin_id: @copenhagen_unit.id)
-        @turn.moves << move
+       @initial_game_state, @expected_game_state = GameStateLoader.parse 'spec/yml_states/test_attack_attacker_wins.yml'
       end
 
       it 'attacks a targeted enemy unit and destroys either your unit or the enemy unit' do
-        @game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+        allow(Random).to receive(:rand).with(anything).and_return(6, 1, 6, 1)
 
-        expect(@game_state.get_city(@enemy_city.id).units.empty? || @game_state.get_unit(@copenhagen_unit.id) == nil).to eq(true)
+        @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+        
+        expect(@initial_game_state).to eq(@expected_game_state)
       end
     end
   end
