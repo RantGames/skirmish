@@ -33,8 +33,19 @@ module Skirmish::MoveValidators
     end
   end
 
+  class AttackUnit
+    def initialize(foo, bar)
+      #todo make this
+    end
+
+    def validate
+      true
+    end
+  end
+
   ACTION_TO_MOVE_VALIDATOR_MAPPINGS = {
-      'move_unit' => MoveUnit
+      'move_unit' => MoveUnit,
+      'attack_unit' => AttackUnit
   }
 
   def self.validate(move, game_state)
