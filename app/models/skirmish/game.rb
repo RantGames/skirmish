@@ -4,6 +4,8 @@ class Skirmish::Game < ActiveRecord::Base
   has_many :players, class_name: 'Skirmish::Player'
   has_many :turns, class_name: 'Skirmish::Turn'
 
+  attr_accessor :winner
+
   def self.join_new_game(user)
     player = user.create_player
     player.save
@@ -84,5 +86,7 @@ class Skirmish::Game < ActiveRecord::Base
   def barbarian_cities
     cities.select { |city| city.player.barbarian }
   end
+
+
 
 end
