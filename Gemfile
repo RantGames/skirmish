@@ -29,6 +29,9 @@ gem 'cities'
 gem 'countries'
 gem 'deep_merge'
 
+gem 'faker'
+
+
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
@@ -40,13 +43,11 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'faker'
   gem 'json_expressions'
   gem 'rspec-activemodel-mocks'
 end
 
 group :production do 
-  gem 'pg'
   gem 'rails_12factor'
 end
 
