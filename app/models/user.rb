@@ -4,15 +4,17 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_one :player, class_name: 'Skirmish::Player'
+  has_many :players, class_name: 'Skirmish::Player'
 
   def create_player
-    self.player = Skirmish::Player.create(name: username)
+    player = Skirmish::Player.create( name: username)
+    self.players << player
+    player
   end
 
   def current_game
-    if player.present?
-      player.game
+    if players.present?
+      players.order(:game_id).last.game
     else
       nil
     end
@@ -23,3 +25,4 @@ class User < ActiveRecord::Base
   end
 
 end
+

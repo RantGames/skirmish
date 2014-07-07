@@ -47,11 +47,11 @@ ActiveRecord::Schema.define(version: 20140706034223) do
 
   create_table "players", force: true do |t|
     t.integer  "game_id"
-    t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "barbarian",  default: false
+    t.integer  "user_id"
   end
 
   create_table "turns", force: true do |t|
