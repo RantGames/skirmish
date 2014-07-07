@@ -7,7 +7,7 @@ module Skirmish::GameSetup
   BARBARIAN_NAME = 'Neutral'
   CITY_MIN_POPULATION = 150000
   ANGLE_LAT_LONG = 20
-  DEFAULT_UNIT_QUANTITY = 5
+  DEFAULT_UNIT_QUANTITY = 1
 
   def self.setup_new_game_state
     game = Skirmish::Game.new
