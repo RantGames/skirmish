@@ -6,11 +6,9 @@ require 'skirmish/factories'
 RSpec.describe Skirmish::StateModifiers::CheckForWin do
 
   before do
-    @game = Skirmish::Factories::Game.make
+    @game = Skirmish::Factories::Game.make({},3,2,2)
     @winner = @game.players.last
     cities = @game.cities
-    p @game.players
-    p @game.cities
     cities.each {|city| city.player = @winner; city.save}
   end
 

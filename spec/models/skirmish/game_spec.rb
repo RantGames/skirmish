@@ -160,7 +160,7 @@ RSpec.describe Skirmish::Game, :type => :model do
   describe 'factory make' do
 
     it 'has three players' do
-      expect(Skirmish::Factories::Game.make.players.length).to eq(3)
+      expect(Skirmish::Factories::Game.make({},3,2,2).players.length).to eq(3)
     end
 
   end

@@ -52,7 +52,7 @@ module Skirmish
     end
 
     class Game
-      def self.make(args = {}, num_players = 3, num_cities_per_player = 2, num_units_per_city = 2)
+      def self.make(args = {}, num_players = 2, num_cities_per_player = 2, num_units_per_city = 2)
         attributes = args
         game = Skirmish::Game.create(attributes)
         num_players.times do
