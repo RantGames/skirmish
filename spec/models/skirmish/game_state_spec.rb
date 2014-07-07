@@ -48,17 +48,15 @@ describe Skirmish::GameState do
 
     describe 'attack unit' do
       before do
-        @enemy_city = @game.players.last.cities.first
-        @turn = Skirmish::Turn.create(game_id: @game.id)
-        move = Skirmish::Move.new(player_id: @ubermouse.id, action: Skirmish::Move::ATTACK_UNIT, target_id: @enemy_city.id)
-        move.move_origins.new(origin_id: @copenhagen_unit.id)
-        @turn.moves << move
+       @initial_game_state, @expected_game_state = GameStateLoader.parse 'spec/yml_states/test_attack_attacker_wins.yml'
       end
 
       it 'attacks a targeted enemy unit and destroys either your unit or the enemy unit' do
-        @game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+        allow(Random).to receive(:rand).with(anything).and_return(6, 1, 6, 1)
 
-        expect(@game_state.get_city(@enemy_city.id).units.empty? || @game_state.get_unit(@copenhagen_unit.id) == nil).to eq(true)
+        @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+        
+        expect(@initial_game_state).to eq(@expected_game_state)
       end
     end
   end
