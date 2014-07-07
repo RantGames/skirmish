@@ -3,7 +3,7 @@ require 'skirmish/state_modifiers'
 class Skirmish::GameState
   attr_reader :players
   attr_reader :game
-  STATE_MODIFIERS = [Skirmish::StateModifiers::Turn, Skirmish::StateModifiers::Reinforcements]
+  STATE_MODIFIERS = [Skirmish::StateModifiers::Turn, Skirmish::StateModifiers::Reinforcements, Skirmish::StateModifiers::CheckForWin]
 
   def initialize(game)
     @game = game

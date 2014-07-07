@@ -13,7 +13,6 @@ module Skirmish
       end
     end
 
-
     class City
       def self.make(args = {}, num_units = 2)
         attributes = {
