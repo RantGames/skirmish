@@ -2,7 +2,7 @@ class MoveController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    move_json = JSON.parse(params[:move])
+    move_json = params[:move]
     game_id = params[:game_id]
     player = Skirmish::Player.where(user_id: current_user.id, game_id: game_id).first
     game_state = Skirmish::GameState.from_game game_id
