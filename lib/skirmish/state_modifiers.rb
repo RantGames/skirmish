@@ -24,5 +24,18 @@ module Skirmish
         end
       end
     end
+
+    class CheckForWin
+      def self.process(game, game_state)
+        return if game.player_count < 2
+        potential_winner = game.cities.first.player
+        if potential_winner.cities.length == game.cities.length
+          game.winner = potential_winner
+        end
+      end
+    end
+
   end
 end
+
+

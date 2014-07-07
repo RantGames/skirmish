@@ -3,6 +3,7 @@ require 'skirmish/game_setup'
 class GameStateController < ApplicationController
   before_filter :authenticate_user!
   def show
+
     if current_user.is_in_a_game?
       render json: current_user.current_game
     else
