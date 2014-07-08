@@ -48,16 +48,22 @@ describe Skirmish::GameState, :type => :model do
     end
 
     describe 'attack unit' do
-      before do
-       @initial_game_state, @expected_game_state = GameStateLoader.parse 'spec/yml_states/test_attack_attacker_wins.yml'
-      end
+      def perform_attack_test(yml_file, *turn_winners)
+        @initial_game_state, @expected_game_state = GameStateLoader.parse yml_file
 
-      it 'attacks a targeted enemy unit and destroys either your unit or the enemy unit' do
-        allow(Random).to receive(:rand).with(anything).and_return(6, 1, 6, 1)
+        allow(Skirmish::BattleSimulator).to receive(:check_winner).with(Integer, Integer).and_return(*turn_winners)
 
         @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
 
         expect(@initial_game_state).to eq(@expected_game_state)
+      end
+
+      it 'handles the attacker winning' do
+        perform_attack_test('spec/yml_states/test_attack_attacker_wins.yml', true, true)
+      end
+
+      it 'handles the attacker losing' do
+        perform_attack_test('spec/yml_states/test_attack_defender_wins.yml', false, false)
       end
     end
   end
