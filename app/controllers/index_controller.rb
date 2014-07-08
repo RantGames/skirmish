@@ -7,6 +7,6 @@ class IndexController < ApplicationController
 
   def chat
     Pusher.trigger('skirmish_channel','chat_message', { message: params[:chat_message]})
-    head :ok, :content_type => 'text/html'
+    head :ok
   end
 end
