@@ -6,7 +6,9 @@ class IndexController < ApplicationController
   end
 
   def chat
-    Pusher.trigger('skirmish_channel','chat_message', { message: params[:chat_message]})
+    message = params[:chat_message]
+    message = "#{current_user.current_player.name}: #{message}"
+    ClientNotifier.notification('chat', message)
     head :ok
   end
 end
