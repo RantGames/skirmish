@@ -11,13 +11,13 @@ class Skirmish::Move::Factory
   end
 
   def save
-    player = Skirmish::Player.where(user_id: user.id, game_id: @game_id).first
-    game_state = Skirmish::GameState.from_game(@game_id)
+    player = Skirmish::Player.where(user_id: user.id, game_id: game_id).first
+    game_state = Skirmish::GameState.from_game(game_id)
     move = Skirmish::Move.new(
                     player_id: player.id,
-                    action: @move_json['action'],
-                    target_id: @move_json['target_id'])
-    @move_json['origin_ids'].each do |id|
+                    action: move_json['action'],
+                    target_id: move_json['target_id'])
+    move_json['origin_ids'].each do |id|
       move.move_origins.new(origin_id: id)
     end
 
