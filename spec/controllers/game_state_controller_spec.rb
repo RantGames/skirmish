@@ -6,11 +6,13 @@ require 'pp'
 RSpec.describe GameStateController, :type => :controller do
 
   describe 'show' do
-    let(:user) {User.create(
+    let(:user) {
+      User.create(
           email: 'foo@bar.org',
           password: 'swordfish',
           password_confirmation: 'swordfish'
-        )}
+      )
+    }
 
 
     before do
@@ -32,24 +34,40 @@ RSpec.describe GameStateController, :type => :controller do
       end
 
       it 'returns game_state in json' do
-        pending('shit is broken for some reason, but the output seems correct')
-        pattern = {'game' =>
-          {'id' =>wildcard_matcher, "winner"=>wildcard_matcher, 'players' => [
-          {'id' =>Fixnum, 'name' =>String, 'cities' => [
-            {'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[
-              {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum},
-              {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]
-            },
-            {'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[
-              {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum},
-              {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]
-            },
-            {'id' =>Fixnum, 'name' =>String, 'latitude' =>Float, 'longitude' =>Float, 'population' =>Fixnum, 'units' =>[
-              {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum},
-              {'id' =>Fixnum, 'unit_type' =>String, 'attack' =>Fixnum, 'defense' =>Fixnum}]
-            }]
-          }]
-          }}
+        pattern = {
+            game: {
+                id: Fixnum,
+                winner: wildcard_matcher,
+                players: [
+                    {
+                      id: Fixnum,
+                      name: String,
+                      user_id: wildcard_matcher,
+                      gravatar_hash: String,
+                      cities: [
+                          {
+                            id: Fixnum,
+                            name: String,
+                            latitude: Float,
+                            longitude: Float,
+                            population: Fixnum,
+                            units: [
+                                {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum},
+                                {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum}]
+                          },
+                          {
+                            id: Fixnum,
+                            name: String,
+                            latitude: Float,
+                            longitude: Float,
+                            population: Fixnum,
+                            units: [
+                                {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum},
+                                {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum}]
+                          }]
+                    }]
+            }
+        }
         expect(response.body).to match_json_expression(pattern)
       end
 
