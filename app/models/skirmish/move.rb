@@ -5,6 +5,7 @@ class Skirmish::Move < ActiveRecord::Base
   belongs_to :player, class_name: 'Skirmish::Player'
   belongs_to :turn, class_name: 'Skirmish::Turn'
   has_many :move_origins, class_name: 'Skirmish::MoveOrigin', dependent: :destroy
+  validate :target_id_is_existing_city
 
   MOVE_UNIT = 'move_unit'
   ATTACK_UNIT = 'attack_unit'
@@ -25,5 +26,12 @@ class Skirmish::Move < ActiveRecord::Base
       error_message = e.message
     end
     error_message
+  end
+
+private
+  def target_id_is_existing_city
+    unless Skirmish::City.exists? id: target_id
+      errors[:target_id] << "Target id (#{target_id}) does not point to valid city"
+    end
   end
 end
