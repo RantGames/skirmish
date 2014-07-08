@@ -3,13 +3,13 @@ require 'skirmish/factories'
 module Skirmish
   module StateModifiers
     class Reinforcements
-      def self.process(game, game_state)
+      def self.process(game_state)
         barbarian, *humans = game.players.order('barbarian DESC')
 
         cities = humans.map(&:cities).flatten
         cities.each(&method(:add_reinforcement))
 
-        handle_barbarian(game, barbarian)
+        handle_barbarian(game_state.game, barbarian)
 
         game_state
       end
@@ -29,7 +29,7 @@ module Skirmish
     end
 
     class Turn
-      def self.process(game, game_state)
+      def self.process(game_state)
         turn = Skirmish::Turn.current_turn_for_game game_state.game
         turn.moves.each do |move|
           move.process(game_state)
@@ -38,11 +38,16 @@ module Skirmish
     end
 
     class CheckForWin
-      def self.process(game, game_state)
-        return if game.player_count < 2
-        potential_winner = game.cities.first.player
-        if potential_winner.cities.length == game.cities.length
-          game.winner = potential_winner
+      #todo players cities state is stale, but count hits the database so it's unaffected
+      def self.process(game_state)
+        all_cities = game_state.players.map(&:cities).flatten
+        cities_to_win = all_cities.count * 0.8
+        game = game_state.game
+        game.players.select{|p| not p.barbarian}.each do |p|
+          if p.cities.count >= cities_to_win
+            game.winner = p
+            break
+          end
         end
       end
     end

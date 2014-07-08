@@ -14,7 +14,7 @@ class Skirmish::GameState
     modifiers = STATE_MODIFIERS
     modifiers = filter_state_modifiers(modifiers, only)
     modifiers.each do |modifier|
-      modifier.process(@game, self)
+      modifier.process(self)
       @game.save
     end
     # TODO: Replace filthy hack to get around stale state after turn processing
