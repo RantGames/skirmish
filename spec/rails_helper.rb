@@ -7,6 +7,7 @@ require 'shoulda/matchers'
 require 'active_record_ignored_attributes/matchers'
 require 'json_expressions/rspec'
 require 'database_cleaner'
+require 'rspec/collection_matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

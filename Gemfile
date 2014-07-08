@@ -45,6 +45,7 @@ group :test, :development do
   gem 'pry-byebug'
   gem 'json_expressions'
   gem 'rspec-activemodel-mocks'
+  gem 'rspec-collection_matchers'
 end
 
 group :production do 
