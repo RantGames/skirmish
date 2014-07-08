@@ -9,13 +9,16 @@ class GameStateLoader
     initial_game.save
     initial_game_state = Skirmish::GameState.new(initial_game)
 
-    parsed_contents['moves'].each{|m| parse_move(m, initial_game_state)}
+    moves = parsed_contents['moves'].map{|m| parse_move(m, initial_game_state)}
 
-    expected_state = parsed_contents['expected_state'].deeper_merge(parsed_contents['initial_state'], {merge_hash_arrays: true})
-    expected_game = Skirmish::Game.create
-    expected_game.players << parse_players(expected_state['players'])
-    expected_game_state = Skirmish::GameState.new(expected_game)
-    [initial_game_state, expected_game_state]
+    expected_game_state = nil
+    if parsed_contents.has_key? 'expected_state'
+      expected_state = parsed_contents['expected_state'].deeper_merge(parsed_contents['initial_state'], {merge_hash_arrays: true})
+      expected_game = Skirmish::Game.create
+      expected_game.players << parse_players(expected_state['players'])
+      expected_game_state = Skirmish::GameState.new(expected_game)
+    end
+    [initial_game_state, expected_game_state, moves]
   end
 
 
@@ -67,11 +70,10 @@ class GameStateLoader
   end
 
   def self.find_target(action, move, game_state)
-    case action
-      when :move
-        game_state.cities_for_player(game_state.players[move['player']-1].id).find{|c| c.name == move['to']}
-      when :attack
-        game_state.cities_for_player(game_state.players[move['target']-1].id).find{|c| c.name == move['to']}
+    cities = game_state.cities_for_player(game_state.players[move['player']-1].id)
+    if move.has_key? 'target'
+      cities += game_state.cities_for_player(game_state.players[move['target']-1].id)
     end
+    cities.find{|c| c.name == move['to']}
   end
 end
