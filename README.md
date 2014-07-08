@@ -16,6 +16,6 @@ Implemented in rails and javascript, with react and sidekiq, and using MapBox an
 + rails s
 
 ## Links
-+ Heroku TBD
++ [Heroku](http://skirmish.herokuapp.com)
 + [Project Workflow](https://github.com/RantGames/skirmish/blob/master/project_workflow.md "Project Workflow")
 
