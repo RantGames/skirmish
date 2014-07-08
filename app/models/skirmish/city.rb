@@ -5,7 +5,7 @@ class Skirmish::City < ActiveRecord::Base
   belongs_to :player, class_name: 'Skirmish::Player'
 
   def self.ignored_attributes
-    super + [:player_id]
+    super + [:player_id, :occupied_turn]
   end
 
   def ==(other)
