@@ -4,7 +4,7 @@ require 'skirmish/state_modifiers'
 require 'skirmish/factories'
 require 'game_state_loader'
 
-describe Skirmish::StateModifiers::CheckForWin, focus: true do
+describe Skirmish::StateModifiers::CheckForWin do
 
   it 'updates the game with a winner' do
     initial, expected, moves = GameStateLoader.parse 'spec/yml_states/test_for_win.yml'
