@@ -9,12 +9,17 @@ class Skirmish::Game < ActiveRecord::Base
   def self.join_new_game(user)
     player = user.create_player
     player.save
-    # player.reload
+
+    ClientNotifier.notification('', "#{player.name} has joined the game")
+
+    process_game(player)
+  end
+
+  def self.process_game(player)
     game = allocate_game
     game.add_player player
     game.award_random_barbarian_city player
     game.save
-    # game.reload
     game
   end
 
@@ -74,7 +79,9 @@ class Skirmish::Game < ActiveRecord::Base
   def self.process_turn(turn)
     game_state = Skirmish::GameState.from_game(turn.game.id)
     game_state.advance_turn
+
     turn.update_attributes(completed: true)
+    ClientNotifier.notification('notice', 'Turn has advanced')
     ClientNotifier.push_state_notice
     turn.update_attributes(completed: true)
   end
