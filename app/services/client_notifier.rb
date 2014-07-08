@@ -4,11 +4,12 @@ class ClientNotifier
     Pusher.trigger('skirmish_channel','update_state', { message: 'pull_game_state'})
   end
 
-  def self.notification(tag, contents)
+  def self.notification(tag, contents, player_id = nil)
     Pusher.trigger('skirmish_channel', 'notification', {
         tag: tag,
         contents: contents,
-        time: Time.now.getutc.to_i
+        time: Time.now.getutc.to_i,
+        target_player: player_id
     })
   end
 end
