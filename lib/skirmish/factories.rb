@@ -1,6 +1,7 @@
 require 'faker'
 
 module Skirmish
+  # todo fix hacks reloading created objects to get around in-memory instance double up
   module Factories
     class Unit
       def self.make(args = {})
@@ -27,6 +28,7 @@ module Skirmish
         }
 
         city.save
+        city.reload
         city
       end
 
@@ -45,6 +47,7 @@ module Skirmish
         }
 
         player.save
+        player.reload
         player
       end
     end
