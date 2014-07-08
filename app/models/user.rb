@@ -14,10 +14,14 @@ class User < ActiveRecord::Base
 
   def current_game
     if players.present?
-      players.order(:game_id).last.game
+      current_player.game
     else
       nil
     end
+  end
+
+  def current_player
+    players.order(:game_id).last
   end
 
   def is_in_a_game?
