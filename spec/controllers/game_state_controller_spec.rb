@@ -53,6 +53,7 @@ RSpec.describe GameStateController, :type => :controller do
                             population: Fixnum,
                             units: [
                                 {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum},
+                                {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum},
                                 {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum}]
                           },
                           {
@@ -62,6 +63,7 @@ RSpec.describe GameStateController, :type => :controller do
                             longitude: Float,
                             population: Fixnum,
                             units: [
+                                {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum},
                                 {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum},
                                 {id: Fixnum, unit_type: String, attack: Fixnum, defense: Fixnum}]
                           }]

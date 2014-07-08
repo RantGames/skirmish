@@ -1,0 +1,20 @@
+initial_state:
+  players:
+    - name: 'p1'
+      cities:
+        - name: 'Wellington'
+          units: 5
+    - name: 'p2'
+      cities:
+        - name: 'New York'
+          units: 5
+
+moves:
+  - player: 1
+    target: 2
+    action: :move
+    quantity: 3
+    from: 'Wellington'
+    to: 'New York'
+
+

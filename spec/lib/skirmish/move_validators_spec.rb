@@ -3,16 +3,23 @@ require 'skirmish/move_validators'
 
 describe Skirmish::MoveValidators do
   describe 'move unit validator' do
-    it 'does not let you move to an enemy city' do
-      game = Skirmish::Game.new
-      game.players = [Skirmish::Factories::Player.make, Skirmish::Factories::Player.make]
-      game_state = Skirmish::GameState.new(game)
-      player_ids = game.players.map(&:id)
-      move = Skirmish::Move.new(action: Skirmish::Move::MOVE_UNIT,
-                      target_id: game_state.cities_for_player(player_ids[1]).first.id)
-      move.move_origins.new(origin_id: game_state.units_for_player(player_ids[0]).first.id)
+    def run_validation_test(yml_file, error_message_matcher)
+      initial, expected, moves = GameStateLoader.parse yml_file
+      expect{
+        Skirmish::MoveValidators.validate(moves[0], initial)
+      }.to raise_error(Skirmish::MoveValidators::MoveValidationError, error_message_matcher)
+    end
 
-      expect{Skirmish::MoveValidators.validate(move, game_state)}.to raise_error(Skirmish::MoveValidators::MoveValidationError)
+    it 'does not let you move to an enemy city' do
+      run_validation_test('spec/yml_states/test_moving_enemy_city.yml', /.*move.*/)
+    end
+
+    it 'does not let you attack your own city' do
+      run_validation_test('spec/yml_states/test_attacking_own_city.yml', /.*attack.*/)
+    end
+
+    it 'does not let you move all your units out of a city' do
+      run_validation_test('spec/yml_states/test_moving_all_units_from_city.yml', /.*one unit.*/)
     end
   end
 end

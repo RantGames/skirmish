@@ -1,0 +1,16 @@
+initial_state:
+  players:
+    - name: 'p1'
+      cities:
+        - name: 'Wellington'
+          units: 3
+        - name: 'Copenhagen'
+          units: 5
+
+moves:
+  - player: 1
+    action: :move
+    quantity: 3
+    from: 'Wellington'
+    to: 'Copenhagen'
+

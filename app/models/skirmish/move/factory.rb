@@ -21,9 +21,9 @@ class Skirmish::Move::Factory
       move.move_origins.new(origin_id: id)
     end
 
-    self.error_messages = move.validate(game_state)
+    self.validation_error = move.validate(game_state)
 
-    if error_messages.empty? && move.save
+    if validation_error.empty? && move.save
       Skirmish::Turn.add_move(move, game_state.game)
       true
     else
@@ -32,16 +32,16 @@ class Skirmish::Move::Factory
   end
 
   def error_message
-    if error_messages.empty?
-      "There was a problem creating your move"
+    if validation_error.empty?
+      'Error saving move'
     else
-      "Error occurred processing move: #{error_messages}"
+      "Error occurred processing move: #{validation_error}"
     end
   end
 
 private
 
-  attr_accessor :error_messages
+  attr_accessor :validation_error
   attr_reader :move_json, :game_id, :user
 
 end

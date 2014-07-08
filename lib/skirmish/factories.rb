@@ -35,7 +35,7 @@ module Skirmish
     end
 
     class Player
-      def self.make(args = {}, num_cities = 2, num_units_per_city = 2)
+      def self.make(args = {}, num_cities = 2, num_units_per_city = 3)
         attributes = {
             game_id: 1,
             name: Faker::Internet::user_name

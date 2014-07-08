@@ -63,6 +63,7 @@ describe Skirmish::GameState, :type => :model do
 
       it 'lets you move a unit to another city' do
         @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+
         success = @initial_game_state == @expected_game_state
         unless success
           states = [['initial', @initial_game_state], ['expected', @expected_game_state]]
@@ -79,6 +80,7 @@ describe Skirmish::GameState, :type => :model do
             puts '==================================='
           end
         end
+
         expect(@initial_game_state).to eq(@expected_game_state)
       end
     end
@@ -90,6 +92,23 @@ describe Skirmish::GameState, :type => :model do
         allow(Skirmish::BattleSimulator).to receive(:check_winner).with(Integer, Integer).and_return(*turn_winners)
 
         @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
+
+        success = @initial_game_state == @expected_game_state
+        unless success
+          states = [['initial', @initial_game_state], ['expected', @expected_game_state]]
+          states.each do |state|
+            puts "======== #{state[0]} units ========"
+            unit_arrays = state[1].players.map(&:cities).flatten.map(&:units)
+            unit_arrays.each do |units|
+              p "-------- #{units[0].city.name} units -------"
+              units.each do |unit|
+                p unit
+              end
+              p '--------------------------------------------'
+            end
+            puts '==================================='
+          end
+        end
 
         expect(@initial_game_state).to eq(@expected_game_state)
       end
