@@ -1,23 +1,21 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.0.0
+- 2.0.0
 before_script:
-  - cp config/database.yml.travis config/database.yml
-  - bundle exec rake db:setup
-  - chmod -R 777 ./pull_city_data.sh
-  - ./pull_city_data.sh
-# whitelist
+- cp config/database.yml.travis config/database.yml
+- bundle exec rake db:setup
+- chmod -R 777 ./pull_city_data.sh
+- ./pull_city_data.sh
 branches:
   only:
-    - develop
-    - master
-
-install: "bin/wad"
-script: "bundle exec rake"
+  - develop
+  - master
+install: bin/wad
+script: bundle exec rake
 env:
   global:
-    - S3_BUCKET_NAME=skirmish-wad
-    - S3_REGION=us-west-2
-    - secure: "JkBQ5ZsHDUc8bvAQ6Q5ZOTplsQql8jQLHsqyMB39Pb1uJ8T6OfuNceQW31PPHmN+LHiQpi3x1mflymlHh+wffDHkdOTZAbjs51aIDxO3dHoUHsRHX9HBIaPgx+z32k80IllHiVLd7tWksS5FCJqGmrTaeg5OrE6ltGUX4c5QmOM="
-
+  - S3_BUCKET_NAME=skirmish-wad
+  - S3_REGION=us-west-2
+  - secure: JkBQ5ZsHDUc8bvAQ6Q5ZOTplsQql8jQLHsqyMB39Pb1uJ8T6OfuNceQW31PPHmN+LHiQpi3x1mflymlHh+wffDHkdOTZAbjs51aIDxO3dHoUHsRHX9HBIaPgx+z32k80IllHiVLd7tWksS5FCJqGmrTaeg5OrE6ltGUX4c5QmOM=
+  - secure: B9OYucqUI8rRTBGpTnGe98obUJDoMnllJalikR8zUyYsZRQZjcxfFvCZiWWKt8eXcBBrn/ygMBS2hecdUeEJuG6AG2oHvEIznwm9jVE9FEubW4jW1Z13MaNGru5cB2mNZyD227boscuhXkhetJD+K8y9AD7ZtpQNEf4p+MNwLRg=
