@@ -9,7 +9,10 @@ class GameStateLoader
     initial_game.save
     initial_game_state = Skirmish::GameState.new(initial_game)
 
-    moves = parsed_contents['moves'].map{|m| parse_move(m, initial_game_state)}
+    moves = nil
+    if parsed_contents.has_key? 'moves'
+      moves = parsed_contents['moves'].map{|m| parse_move(m, initial_game_state)}
+    end
 
     expected_game_state = nil
     if parsed_contents.has_key? 'expected_state'

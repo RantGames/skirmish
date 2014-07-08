@@ -24,6 +24,7 @@ module Skirmish::MoveProcessors
           u.city = defending_city
         end
         defending_city.player_id = move.player_id
+        defending_city.occupied_turn = game_state.turn_number
         defending_city.save
         attacking_units.each(&:save)
       end

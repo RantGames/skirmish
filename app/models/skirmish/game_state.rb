@@ -54,6 +54,10 @@ class Skirmish::GameState
     city.units
   end
 
+  def turn_number
+    game.turns.count
+  end
+
   def self.from_json(json)
     parser = Skirmish::GameStateParser.new(json)
     parser.parse
@@ -88,7 +92,7 @@ private
     if only.is_a? Array
       only = only.map(&:name)
     else
-      only = [only]
+      only = [only.name]
     end
     modifiers = modifiers.select { |m| only.include? m.name } if only.present?
     modifiers

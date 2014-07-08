@@ -4,14 +4,12 @@ module Skirmish
   module StateModifiers
     class Reinforcements
       def self.process(game_state)
-        barbarian, *humans = game.players.order('barbarian DESC')
+        barbarian, *humans = game_state.players.order('barbarian DESC')
 
         cities = humans.map(&:cities).flatten
-        cities.each(&method(:add_reinforcement))
+        cities.select{|c| occupied_for_two_turns(c, game_state)}.each(&method(:add_reinforcement))
 
         handle_barbarian(game_state.game, barbarian)
-
-        game_state
       end
 
 
@@ -24,6 +22,14 @@ module Skirmish
         # todo tweak this, there is probably a more appropriate value
         if game.turns.count % 10 == 0
           barbarian.cities.each(&method(:add_reinforcement))
+        end
+      end
+
+      def self.occupied_for_two_turns(city, game_state)
+        if city.occupied_turn == nil
+          true
+        else
+          (game_state.turn_number - city.occupied_turn) >= 2
         end
       end
     end
