@@ -14,6 +14,7 @@ RSpec.describe 'setup player in game' do
       stub_model(Skirmish::Game)
       stub_model(Skirmish::City)
       stub_model(Skirmish::Unit)
+      allow(Skirmish::CityList).to receive(:random_cities).and_return(citys)
     end
 
     it 'populates a game with one barbarian player' do
@@ -24,7 +25,6 @@ RSpec.describe 'setup player in game' do
     end
 
     it 'adds cities to game' do
-      allow(Skirmish::CityList).to receive(:random_cities).and_return(citys)
       allow(Skirmish::Factories::City).to receive(:make).and_return(citys)
       @game = Skirmish::GameSetup.setup_new_game_state
       @players = @game.players
