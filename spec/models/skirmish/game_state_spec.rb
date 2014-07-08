@@ -89,7 +89,7 @@ describe Skirmish::GameState, :type => :model do
       def perform_attack_test(yml_file, *turn_winners)
         @initial_game_state, @expected_game_state = GameStateLoader.parse yml_file
 
-        allow(Skirmish::BattleSimulator).to receive(:check_winner).with(Integer, Integer).and_return(*turn_winners)
+        stub_attacking_winning(*turn_winners)
 
         @initial_game_state.advance_turn(only: Skirmish::StateModifiers::Turn)
 
