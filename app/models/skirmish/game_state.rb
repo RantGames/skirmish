@@ -85,7 +85,12 @@ private
   end
 
   def filter_state_modifiers(modifiers, only)
-    modifiers = modifiers.select { |m| m.name == only.name } if only.present?
+    if only.is_a? Array
+      only = only.map(&:name)
+    else
+      only = [only]
+    end
+    modifiers = modifiers.select { |m| only.include? m.name } if only.present?
     modifiers
   end
 end
