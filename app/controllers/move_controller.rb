@@ -10,7 +10,7 @@ class MoveController < ApplicationController
     move = Skirmish::Move::Factory.build(args)
 
     if move.save
-      render json: { message: "Move created" }
+      render json: { message: 'Move created'}
     else
       render json: { message: move.error_message }, status: 422
     end
