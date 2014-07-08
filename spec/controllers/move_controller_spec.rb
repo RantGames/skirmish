@@ -86,4 +86,56 @@ describe MoveController, :type => :controller do
 
     end
   end
+
+  describe "POST create" do
+    let(:user) { instance_double("User") }
+
+    before do
+      allow(controller).to receive(:authenticate_user!) { true }
+      allow(controller).to receive(:current_user) { user }
+    end
+
+    let(:move) { instance_double("Skirmish::Move::Process") }
+
+    before { allow(Skirmish::Move::Factory).to receive(:build) { move } }
+
+    it "sends the expected data to the factory" do
+      allow(move).to receive(:save) { true }
+      args = { move: "Canada", game_id: "4" }
+      expected_args = { move_json: "Canada", game_id: "4", user: user }
+      expect(Skirmish::Move::Factory).to receive(:build).with(expected_args)
+      post "create", args
+    end
+
+    context "when the new move is valid" do
+      before { allow(move).to receive(:save) { true } }
+
+      it "returns a message confirming the move has been made" do
+        valid_args = { move: 5, game_id: 9 }
+        expected_response = { message: "Move created" }
+        post "create", valid_args
+        expect(response.body).to include(expected_response.to_json)
+      end
+    end
+
+    context "when the new move is invalid" do
+      let(:error_message) { "Everything failed." }
+
+      before do
+        allow(move).to receive(:save) { false }
+        allow(move).to receive(:error_message) { error_message }
+        garbage = { garbage: "asdfg3r34e" }
+        post "create", garbage
+      end
+
+      it "returns a message with the errors" do
+        expected_response = { message: error_message }
+        expect(response.body).to include(expected_response.to_json)
+      end
+
+      it "returns the status unprocessable entity" do
+        expect(response.status).to eq(422)
+      end
+    end
+  end
 end
