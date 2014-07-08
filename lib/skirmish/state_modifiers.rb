@@ -18,7 +18,7 @@ module Skirmish
 
     class Turn
       def self.process(match, game_state)
-        turn = match.turns.order('created_at DESC').limit(1).first
+        turn = Skirmish::Turn.current_turn_for_game game_state.game
         turn.moves.each do |move|
           move.process(game_state)
         end
