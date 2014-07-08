@@ -14,7 +14,7 @@ describe Skirmish::GameState, :type => :model do
     @ubermouse.cities << @copenhagen
     @wellington = Skirmish::City.create(name: 'Wellington', latitude: -41.2443701, longitude: 174.7618546)
     @ubermouse.cities << @wellington
-    @players = [@ubermouse, Skirmish::Factories::Player.make]
+    @players = [@ubermouse, Skirmish::Factories::Player.make(barbarian: true)]
     @game.players = @players
 
     @game_state = Skirmish::GameState.new(@game)
@@ -22,15 +22,36 @@ describe Skirmish::GameState, :type => :model do
 
   describe 'advancing a turn' do
 
-    it 'generates reinforcements' do
-      p1_id = @players[0].id
-      cities = @game_state.cities_for_player(p1_id)
+    def perform_reinforcements_test(player_id, expected_units_change = nil)
+      cities = @game_state.cities_for_player(player_id) unless expected_units_change
 
       expect {
         @game_state.advance_turn(only: Skirmish::StateModifiers::Reinforcements)
       }.to change {
-        @game_state.units_for_player(p1_id).length
-      }.by(cities.length)
+        @game_state.units_for_player(player_id).length
+      }.by(expected_units_change || cities.length)
+    end
+
+    def stub_turns(count)
+      stubbed_turns = count.times.map {
+        stub_model Skirmish::Turn, game_id: @game.id
+      }
+      allow(@game).to receive(:turns).and_return stubbed_turns
+    end
+
+    it 'generates reinforcements' do
+      stub_turns(1)
+      perform_reinforcements_test(@players[0].id)
+    end
+
+    it 'does not generate reinforcements for barbarians on turns not divisible by 10' do
+      stub_turns(3)
+      perform_reinforcements_test(@players[1].id, 0)
+    end
+
+    it 'does generate reinforcements for barbarians on turns divisible by 10' do
+      stub_turns(10)
+      perform_reinforcements_test(@players[1].id, 2)
     end
   end
 
