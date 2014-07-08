@@ -18,7 +18,7 @@ module Skirmish::BattleSimulator
     until attacking_units.empty? || defending_city.units.empty?
       attacker_roll = Random.rand(1..6)
       defender_roll = Random.rand(1..6)
-      if attacker_roll > defender_roll
+      if check_winner(attacker_roll, defender_roll)
         defending_city.units.first.destroy
         defending_city.units = defending_city.units.drop 1
       else
@@ -27,5 +27,19 @@ module Skirmish::BattleSimulator
       end
     end
     BattleResult.new(defending_city.units.empty?, attacking_units.empty?)
+  end
+
+private
+  # Determines winner of dice roll
+  #
+  # @param attacker_roll [Integer] the attackers roll
+  # @param defender_roll [Integer] the defenders roll
+  # @return [Boolean] true if the attacker won, false if the defender won
+  def self.check_winner(attacker_roll, defender_roll)
+    if attacker_roll > defender_roll
+      true
+    else
+      false
+    end
   end
 end
