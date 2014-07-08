@@ -74,6 +74,7 @@ class Skirmish::Game < ActiveRecord::Base
   def self.process_turn(turn)
     game_state = Skirmish::GameState.from_game(turn.game.id)
     game_state.advance_turn
+    turn.update_attributes(completed: true)
     ClientNotifier.push_state_notice
   end
 
