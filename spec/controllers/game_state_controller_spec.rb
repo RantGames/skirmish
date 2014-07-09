@@ -175,7 +175,7 @@ RSpec.describe GameStateController, :type => :controller do
       end
     end
 
-    describe 'GET process_turn', focus: true do
+    describe 'GET process_turn' do
       let(:turn) { double :turn }
       it "causes the last game's turn to process" do
         allow(Skirmish::Turn).to receive(:last).and_return(turn)
