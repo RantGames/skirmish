@@ -28,17 +28,16 @@ describe Skirmish::MoveValidators do
   end
 
   describe 'one turn per move validator' do
-    it 'does not let you play more than one move turn' do
+    it 'does not let you play more than one move turn', focus: true do
       # if this test fails for 'undefined method city for nilclass it actually means the validation failed'
       game = Skirmish::Factories::Game.make
       game.turns.create
       cities = game.players.first.cities
       game.turns.first.moves
       game.turns.first.moves << Skirmish::Move.create(player_id: game.players.first, action: 'move_unit', target_id: cities.first.id)
-      move = Skirmish::Move.create(player_id: game.players.first,
-                                   action: 'move_unit',
-                                   target_id: cities.last.id)
-      game.turns.first.moves << move
+      move = Skirmish::Move.new(player_id: game.players.first,
+                                action: 'move_unit',
+                                target_id: cities.last.id)
 
       expect{
         Skirmish::MoveValidators.validate(move, Skirmish::GameState.from_game(game))

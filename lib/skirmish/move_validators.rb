@@ -36,7 +36,7 @@ module Skirmish::MoveValidators
   class OneMovePerTurn
     def self.validate(move, game_state)
       turn = Skirmish::Turn.current_turn_for_game game_state.game
-      turn.moves.select{|m| m.player_id == move.player_id}.count <= 2
+      turn.moves.select{|m| m.player_id == move.player_id}.count < 1
     end
 
     def self.failure_message
@@ -51,6 +51,7 @@ module Skirmish::MoveValidators
   GLOBAL_VALIDATORS = [OneMovePerTurn]
 
   def self.validate(move, game_state)
+    binding.pry
     GLOBAL_VALIDATORS.each do |validator|
       raise MoveValidationError, validator.failure_message unless validator.validate(move, game_state)
     end
