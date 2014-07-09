@@ -14,7 +14,6 @@ RSpec.describe GameStateController, :type => :controller do
       )
     }
 
-
     before do
       @game = Skirmish::Game.create
       @game.players = [Skirmish::Factories::Player.make]
@@ -117,6 +116,34 @@ RSpec.describe GameStateController, :type => :controller do
 
   end
 
+  describe 'skip_turn' do
+    context 'signed in' do
+      it 'skips the current turn for the current player' do
+        game = double(:game)
+        player = double(:player, id: 1, has_skipped?: false, name: 'UberMouse')
+        turn = stub_model(Skirmish::Turn)
+
+        expect(Skirmish::Turn).to receive(:current_turn_for_game).with(game).and_return(turn)
+        expect(turn.skips).to receive(:create).with(player_id: player.id)
+        expect(ClientNotifier).to receive(:notification).with(String, String)
+
+        sign_in double(:user, is_in_a_game?: true, current_player: player, current_game: game)
+
+        get 'skip_turn'
+      end
+
+      it 'returns 403 if you attempt to skip a turn more than once' do
+        player = double(:player, has_skipped?: true, id: 1)
+        sign_in double(:user, is_in_a_game?: true, current_player: player)
+
+        expect(ClientNotifier).to receive(:notification).with(String, String, player.id)
+
+        get 'skip_turn'
+
+        expect(response.status).to eq(403)
+      end
+    end
+  end
 
   describe 'GET new' do
     before do

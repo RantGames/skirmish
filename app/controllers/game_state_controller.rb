@@ -26,4 +26,18 @@ class GameStateController < ApplicationController
     render json: { message: 'hopefully processed turn' }
   end
 
+  def skip_turn
+    if current_user.is_in_a_game? && !current_user.current_player.has_skipped?
+      turn = Skirmish::Turn.current_turn_for_game current_user.current_game
+      turn.skips.create(player_id: current_user.current_player.id)
+
+      ClientNotifier.notification('notice', "#{current_user.current_player.name} has skipped their turn")
+
+      head :ok
+    else
+      ClientNotifier.notification('notice', 'You already skipped your turn', current_user.current_player.id)
+      render nothing: true, status: 403
+    end
+  end
+
 end
