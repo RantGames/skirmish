@@ -1,5 +1,16 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
+
+if ENV['TRAVIS']
+  require 'coveralls'
+  Coveralls.wear!('rails')
+
+  SimpleCov.start do
+    add_filter '.bundle'
+    add_filter 'spec'
+  end
+end
+
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
@@ -10,8 +21,7 @@ require 'database_cleaner'
 require 'rspec/collection_matchers'
 require 'support/attacking_helpers'
 require 'support/devise_helpers'
-require 'coveralls'
-Coveralls.wear!
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
