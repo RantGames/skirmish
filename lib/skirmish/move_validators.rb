@@ -33,12 +33,28 @@ module Skirmish::MoveValidators
     end
   end
 
+  class OneMovePerTurn
+    def self.validate(move, game_state)
+      turn = Skirmish::Turn.current_turn_for_game game_state.game
+      turn.moves.select{|m| m.player_id == move.player_id}.count <= 2
+    end
+
+    def self.failure_message
+      'You have already moved once this turn'
+    end
+  end
+
   ACTION_TO_MOVE_VALIDATOR_MAPPINGS = {
       'move_unit' => MoveUnit,
       'attack_unit' => AttackUnit
   }
+  GLOBAL_VALIDATORS = [OneMovePerTurn]
 
   def self.validate(move, game_state)
+    GLOBAL_VALIDATORS.each do |validator|
+      raise MoveValidationError, validator.failure_message unless validator.validate(move, game_state)
+    end
+
     validator = ACTION_TO_MOVE_VALIDATOR_MAPPINGS[move.action].new(move, game_state)
 
     raise MoveValidationError, validator.failure_message unless validator.validate
