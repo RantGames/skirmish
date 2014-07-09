@@ -6,7 +6,7 @@ describe Skirmish::MoveValidators do
   def run_validation_test(yml_file, error_message_matcher)
     initial, expected, moves = GameStateLoader.parse yml_file
     expect{
-      Skirmish::MoveValidators.validate(moves[0], initial)
+      Skirmish::MoveValidators.validate(moves.first, initial)
     }.to raise_error(Skirmish::MoveValidators::MoveValidationError, error_message_matcher)
   end
 

@@ -49,7 +49,7 @@ RSpec.describe Skirmish::Game, :type => :model do
         end
       end
 
-      describe 'returned game state' do
+      describe 'returned game state', slow: true do
         let(:user) do
           User.create(
             email: 'foo@bar.org',

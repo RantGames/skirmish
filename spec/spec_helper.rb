@@ -20,6 +20,9 @@ RSpec.configure do |config|
   config.profile_examples = 10
   config.order = :random
   config.default_formatter = 'doc'
-  config.filter_run :focus
+  unless ENV['TRAVIS']
+    config.filter_run :focus
+    config.filter_run_excluding :slow
+  end
   config.run_all_when_everything_filtered = true
 end

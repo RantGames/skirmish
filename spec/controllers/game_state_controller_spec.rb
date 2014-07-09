@@ -75,7 +75,7 @@ RSpec.describe GameStateController, :type => :controller do
 
     end
 
-    describe "GET 'new'" do
+    describe "GET 'new'", slow: true do
       let(:user) {User.create(
           email: 'foo@bar.org',
           password: 'swordfish',
@@ -86,7 +86,6 @@ RSpec.describe GameStateController, :type => :controller do
       context 'gets new game state' do
 
         before do
-          Skirmish::Game.destroy_all
           sign_in(user)
           get 'new'
         end
@@ -119,58 +118,58 @@ RSpec.describe GameStateController, :type => :controller do
   end
 
 
-  describe "GET new" do
+  describe 'GET new' do
     before do
-      user = instance_double("User")
+      user = instance_double('User')
       allow(controller).to receive(:authenticate_user!) { true }
       allow(controller).to receive(:current_user) { user }
     end
 
-    context "when user is already in the game" do
+    context 'when user is already in the game' do
       before { allow(Skirmish::Game).to receive(:is_user_in_latest_game?) { true } }
 
-      it "returns a forbidden status" do
-        get "new"
+      it 'returns a forbidden status' do
+        get 'new'
         expect(response).to be_forbidden
       end
     end
 
-    context "when user is not already in the game" do
+    context 'when user is not already in the game' do
       before { allow(Skirmish::Game).to receive(:is_user_in_latest_game?) { false } }
 
-      it "returns json for the current game" do
+      it 'returns json for the current game' do
         fake_data = { game_id: 3 }
         allow(Skirmish::Game).to receive(:join_new_game) { fake_data }
-        get "new"
+        get 'new'
         expect(response.body).to include(fake_data.to_json)
       end
     end
   end
 
-  describe "GET show" do
-    let(:user) { instance_double("User") }
+  describe 'GET show' do
+    let(:user) { instance_double('User') }
 
     before do
       allow(controller).to receive(:authenticate_user!) { true }
       allow(controller).to receive(:current_user) { user }
     end
 
-    context "when user is already in a game" do
+    context 'when user is already in a game' do
       before { allow(user).to receive(:is_in_a_game?) { true } }
 
-      it "returns json for the current game" do
+      it 'returns json for the current game' do
         fake_data = { game_id: 3 }
         allow(user).to receive(:current_game) { fake_data }
-        get "show"
+        get 'show'
         expect(response.body).to include(fake_data.to_json)
       end
     end
 
-    context "when user is not already in a game" do
+    context 'when user is not already in a game' do
       before { allow(user).to receive(:is_in_a_game?) { false } }
 
-      it "returns a forbidden status" do
-        get "show"
+      it 'returns a forbidden status' do
+        get 'show'
         expect(response).to be_forbidden
       end
     end
@@ -181,7 +180,7 @@ RSpec.describe GameStateController, :type => :controller do
         allow(Skirmish::Turn).to receive(:last).and_return(turn)
         expect(Skirmish::Game).to receive(:process_turn).with(turn)
 
-        get "process_turn"
+        get 'process_turn'
       end
     end
   end

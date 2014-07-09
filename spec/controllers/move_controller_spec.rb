@@ -13,6 +13,7 @@ describe MoveController, :type => :controller do
     @p2_id = @game.players[1].id
     sign_in double('user', id: 1, current_player: p1)
 
+    @origin_id = p1.cities.first.id
     units = @game_state.units_for_player(@p1_id)
     @origin_ids = [units[0].id, units[1].id]
   end
@@ -22,8 +23,9 @@ describe MoveController, :type => :controller do
       @move = {
                player_id: @p1_id,
                action: Skirmish::Move::MOVE_UNIT,
-               origin_ids: @origin_ids,
-               target_id: @game_state.cities_for_player(@p1_id).last.id
+               origin_id: @origin_id,
+               target_id: @game_state.cities_for_player(@p1_id).last.id,
+               quantity: 2
               }
     end
 
@@ -70,11 +72,11 @@ describe MoveController, :type => :controller do
       end
 
       it 'has two move_origins' do
-        expect(@move.move_origins.length).to eq(2)
+        expect(@move.move_origins.length).to eq(@origin_ids.count)
       end
 
       it 'has move_origins referring to the correct ids' do
-        2.times do |i|
+        @origin_ids.count.times do |i|
           move_origins = @move.move_origins
           expect(move_origins[i].origin_id).to eq(@origin_ids[i]), "move_origins[#{i}] (#{move_origins[i].id}) does not match #{@origin_ids[i]}"
         end
@@ -87,53 +89,53 @@ describe MoveController, :type => :controller do
     end
   end
 
-  describe "POST create" do
-    let(:user) { instance_double("User", current_player: double('current_player', id: 1)) }
+  describe 'POST create' do
+    let(:user) { instance_double('User', current_player: double('current_player', id: 1)) }
 
     before do
       allow(controller).to receive(:authenticate_user!) { true }
       allow(controller).to receive(:current_user) { user }
     end
 
-    let(:move) { instance_double("Skirmish::Move::Process") }
+    let(:move) { instance_double('Skirmish::Move::Process') }
 
     before { allow(Skirmish::Move::Factory).to receive(:build) { move } }
 
-    it "sends the expected data to the factory" do
+    it 'sends the expected data to the factory' do
       allow(move).to receive(:save) { true }
-      args = { move: "Canada", game_id: "4" }
-      expected_args = { move_json: "Canada", game_id: "4", user: user }
+      args = { move: 'Canada', game_id: '4'}
+      expected_args = { move_json: 'Canada', game_id: '4', user: user }
       expect(Skirmish::Move::Factory).to receive(:build).with(expected_args)
-      post "create", args
+      post 'create', args
     end
 
-    context "when the new move is valid" do
+    context 'when the new move is valid' do
       before { allow(move).to receive(:save) { true } }
 
-      it "returns a message confirming the move has been made" do
+      it 'returns a message confirming the move has been made' do
         valid_args = { move: 5, game_id: 9 }
-        expected_response = { message: "Move created" }
-        post "create", valid_args
+        expected_response = { message: 'Move created'}
+        post 'create', valid_args
         expect(response.body).to include(expected_response.to_json)
       end
     end
 
-    context "when the new move is invalid" do
-      let(:error_message) { "Everything failed." }
+    context 'when the new move is invalid' do
+      let(:error_message) { 'Everything failed.' }
 
       before do
         allow(move).to receive(:save) { false }
         allow(move).to receive(:error_message) { error_message }
-        garbage = { garbage: "asdfg3r34e" }
-        post "create", garbage
+        garbage = { garbage: 'asdfg3r34e'}
+        post 'create', garbage
       end
 
-      it "returns a message with the errors" do
+      it 'returns a message with the errors' do
         expected_response = { message: error_message }
         expect(response.body).to include(expected_response.to_json)
       end
 
-      it "returns the status unprocessable entity" do
+      it 'returns the status unprocessable entity' do
         expect(response.status).to eq(422)
       end
     end

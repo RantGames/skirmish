@@ -58,7 +58,8 @@ describe Skirmish::GameState, :type => :model do
   describe 'processing moves' do
     describe 'move unit' do
       before do
-        @initial_game_state, @expected_game_state = GameStateLoader.parse 'spec/yml_states/test_move.yml'
+        @initial_game_state, @expected_game_state, moves = GameStateLoader.parse 'spec/yml_states/test_move.yml'
+        moves.each(&:save)
       end
 
       it 'lets you move a unit to another city' do
@@ -85,9 +86,10 @@ describe Skirmish::GameState, :type => :model do
       end
     end
 
-    describe 'attack unit' do
+    describe 'attack unit', slow: true do
       def perform_attack_test(yml_file, *turn_winners)
-        @initial_game_state, @expected_game_state = GameStateLoader.parse yml_file
+        @initial_game_state, @expected_game_state, moves = GameStateLoader.parse yml_file
+        moves.each(&:save)
 
         stub_attacking_winning(*turn_winners)
 

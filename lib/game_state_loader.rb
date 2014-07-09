@@ -62,11 +62,11 @@ class GameStateLoader
         :attack => Skirmish::Move::ATTACK_UNIT
     }
 
-    move_model = Skirmish::Turn.current_turn_for_game(game_state.game).moves.create(player_id: player.id,
+    move_model = Skirmish::Turn.current_turn_for_game(game_state.game).moves.new(player_id: player.id,
                                                                     action: action_lookups[move['action']],
                                                                     target_id: city_target.id)
     units_for_move.each do |unit|
-      move_model.move_origins.create(origin_id: unit.id)
+      move_model.move_origins.new(origin_id: unit.id)
     end
 
     move_model
