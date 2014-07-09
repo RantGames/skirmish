@@ -10,6 +10,11 @@ class Skirmish::Player < ActiveRecord::Base
     super + [:game_id]
   end
 
+  def has_skipped?
+    turn = Skirmish::Turn.current_turn_for_game game
+    turn.skips.map(&:player_id).include? id
+  end
+
   def ==(other)
     return false unless other.is_a? Skirmish::Player
 
