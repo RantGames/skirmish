@@ -28,7 +28,7 @@ describe Skirmish::MoveValidators do
   end
 
   describe 'one turn per move validator' do
-    it 'does not let you play more than one move turn', focus: true do
+    it 'does not let you play more than one move turn' do
       # if this test fails for 'undefined method city for nilclass it actually means the validation failed'
       game = Skirmish::Factories::Game.make
       game.turns.create
