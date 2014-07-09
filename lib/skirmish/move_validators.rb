@@ -51,7 +51,6 @@ module Skirmish::MoveValidators
   GLOBAL_VALIDATORS = [OneMovePerTurn]
 
   def self.validate(move, game_state)
-    binding.pry
     GLOBAL_VALIDATORS.each do |validator|
       raise MoveValidationError, validator.failure_message unless validator.validate(move, game_state)
     end
