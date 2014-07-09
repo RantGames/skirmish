@@ -11,7 +11,7 @@ describe MoveController, :type => :controller do
     p1.save
     @p1_id = p1.id
     @p2_id = @game.players[1].id
-    sign_in double('user', id: 1)
+    sign_in double('user', id: 1, current_player: p1)
 
     units = @game_state.units_for_player(@p1_id)
     @origin_ids = [units[0].id, units[1].id]
@@ -88,7 +88,7 @@ describe MoveController, :type => :controller do
   end
 
   describe "POST create" do
-    let(:user) { instance_double("User") }
+    let(:user) { instance_double("User", current_player: double('current_player', id: 1)) }
 
     before do
       allow(controller).to receive(:authenticate_user!) { true }

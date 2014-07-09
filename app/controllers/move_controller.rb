@@ -12,6 +12,7 @@ class MoveController < ApplicationController
     if move.save
       render json: { message: 'Move created'}
     else
+      ClientNotifier.notification('error', move.error_message, current_user.current_player.id)
       render json: { message: move.error_message }, status: 422
     end
   end

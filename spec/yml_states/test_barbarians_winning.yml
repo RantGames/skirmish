@@ -1,0 +1,17 @@
+initial_state:
+  players:
+    - name: 'p1'
+      cities:
+        - name: 'Wellington'
+          units: 1
+        - name: 'Copenhagen'
+          units: 1
+        - name: 'New York'
+          units: 1
+        - name: 'Christchurch'
+          units: 1
+    - name: 'p2'
+      cities:
+        - name: 'Tulsa'
+          units: 1
+
