@@ -83,7 +83,6 @@ class Skirmish::Game < ActiveRecord::Base
     turn.update_attributes(completed: true)
     ClientNotifier.notification('notice', 'Turn has advanced')
     ClientNotifier.push_state_notice
-    turn.update_attributes(completed: true)
   end
 
   private

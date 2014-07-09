@@ -1,4 +1,4 @@
-require 'skirmish/state_modifiers'
+require_dependency 'skirmish/state_modifiers'
 
 class Skirmish::GameState
   attr_reader :players
