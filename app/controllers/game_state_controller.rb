@@ -33,6 +33,8 @@ class GameStateController < ApplicationController
 
       ClientNotifier.notification('notice', "#{current_user.current_player.name} has skipped their turn")
 
+      current_user.current_game.process_turn_if_required
+
       head :ok
     else
       ClientNotifier.notification('notice', 'You already skipped your turn', current_user.current_player.id)

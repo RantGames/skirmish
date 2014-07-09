@@ -119,7 +119,7 @@ RSpec.describe GameStateController, :type => :controller do
   describe 'skip_turn' do
     context 'signed in' do
       it 'skips the current turn for the current player' do
-        game = double(:game)
+        game = double(:game, process_turn_if_required: nil)
         player = double(:player, id: 1, has_skipped?: false, name: 'UberMouse')
         turn = stub_model(Skirmish::Turn)
 

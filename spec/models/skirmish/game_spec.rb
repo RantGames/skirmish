@@ -165,4 +165,18 @@ RSpec.describe Skirmish::Game, :type => :model do
 
   end
 
+  describe 'process_turn_if_required' do
+    it 'processes the game turn if moves.count + skips.count >= players.count' do
+      turn = double(:turn, moves: double(count: 2), skips: double(:skips, count: 2))
+      game = Skirmish::Game.new
+
+      allow(game).to receive(:moves).and_return(double(:moves, count: 2))
+      allow(game).to receive(:players).and_return(double(:players, count: 4))
+
+      expect(game).to receive(:turns).and_return(double(:turn, last: turn))
+      expect(Skirmish::Game).to receive(:process_turn).with(turn)
+
+      game.process_turn_if_required
+    end
+  end
 end

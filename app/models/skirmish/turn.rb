@@ -9,9 +9,7 @@ class Skirmish::Turn < ActiveRecord::Base
 
     notify_clients(move)
 
-    if game.player_count > 1 && turn.moves.count >= game.player_count
-      Skirmish::Game.process_turn(turn)
-    end
+    game.process_turn_if_required
   end
 
 

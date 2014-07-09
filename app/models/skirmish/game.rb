@@ -85,6 +85,14 @@ class Skirmish::Game < ActiveRecord::Base
     ClientNotifier.push_state_notice
   end
 
+  def process_turn_if_required
+    turn = turns.last
+
+    if turn.moves.count + turn.skips.count >= players.count
+      Skirmish::Game.process_turn turn
+    end
+  end
+
   private
 
   def self.player_in_a_game?(user)
@@ -98,7 +106,6 @@ class Skirmish::Game < ActiveRecord::Base
   def barbarian_cities
     cities.select { |city| city.player.barbarian }
   end
-
 
 
 end
