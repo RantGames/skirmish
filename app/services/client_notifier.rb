@@ -8,7 +8,7 @@ class ClientNotifier
     Pusher.trigger('skirmish_channel', 'notification', {
         tag: tag,
         contents: contents,
-        time: Time.now.getutc.to_i,
+        time: (Time.now.getutc.to_f * 1000).to_i,
         target_player: player_id
     })
   end
