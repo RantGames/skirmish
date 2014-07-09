@@ -1,6 +1,7 @@
 class Skirmish::Turn < ActiveRecord::Base
   belongs_to :game, class_name: 'Skirmish::Game'
   has_many :moves, class_name: 'Skirmish::Move', dependent: :destroy
+  has_many :skips, class_name: 'Skirmish::Skip', dependent: :destroy
 
   def self.add_move(move, game)
     turn = current_turn_for_game(game)
@@ -8,9 +9,7 @@ class Skirmish::Turn < ActiveRecord::Base
 
     notify_clients(move)
 
-    if game.player_count > 1 && turn.moves.count >= game.player_count
-      Skirmish::Game.process_turn(turn)
-    end
+    game.process_turn_if_required
   end
 
 

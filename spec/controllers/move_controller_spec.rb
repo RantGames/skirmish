@@ -135,7 +135,7 @@ describe MoveController, :type => :controller do
         expect(response.body).to include(expected_response.to_json)
       end
 
-      it 'returns the status unprocessable entity' do
+      it 'returns the status unprocessable entity', slow: true do
         expect(response.status).to eq(422)
       end
     end

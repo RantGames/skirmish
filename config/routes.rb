@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'game_state/process_turn'
   get 'game_state/show'
   get 'game_state/new'
+  get 'game_state/skip_turn'
   get '/current_player_id', to: 'index#current_player_id'
   post 'move/create'
   post '/chat', to: 'index#chat'
