@@ -9,9 +9,11 @@ Implemented in rails and javascript, with react and sidekiq, and using MapBox an
 
 ## How to use the code
 + git clone (this project)
++ cd skirmish
 + bundle install
 + git submodule init
 + git submodule update --remote
++ rake db:create
 + rake db:migrate
 + rails s
 
