@@ -45,4 +45,10 @@ module Skirmish::Validation
     end
     success
   end
+
+  def not_same_city(move, game_state)
+    from = game_state.get_unit(move.origin_ids.first).city
+    to = game_state.get_city(move.target_id)
+    to != from
+  end
 end

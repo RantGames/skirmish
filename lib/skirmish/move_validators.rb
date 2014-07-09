@@ -14,7 +14,8 @@ module Skirmish::MoveValidators
     def validate
       all_in_same_city(@move, @game_state) &&
       moving_to_friendly_city(@move, @game_state) &&
-      at_least_one_unit_left_in_city(@move, @game_state)
+      at_least_one_unit_left_in_city(@move, @game_state) &&
+      not_same_city(@move, @game_state)
     end
   end
 

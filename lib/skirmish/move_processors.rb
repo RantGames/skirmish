@@ -15,7 +15,6 @@ module Skirmish::MoveProcessors
       attacking_units = game_state.get_units(move.origin_ids)
       defending_city = game_state.get_city(move.target_id)
       starting_units_count = attacking_units.count
-      binding.pry
       result = Skirmish::BattleSimulator.resolve_battle(attacking_units, defending_city)
 
       # todo fix hack to get around frozen objects
