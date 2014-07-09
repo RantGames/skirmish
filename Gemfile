@@ -46,6 +46,7 @@ group :test, :development do
   gem 'json_expressions'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
+  gem 'coveralls', require: false
 end
 
 group :production do 

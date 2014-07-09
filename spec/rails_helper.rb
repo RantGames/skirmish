@@ -10,6 +10,8 @@ require 'database_cleaner'
 require 'rspec/collection_matchers'
 require 'support/attacking_helpers'
 require 'support/devise_helpers'
+require 'coveralls'
+Coveralls.wear!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
