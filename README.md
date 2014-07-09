@@ -13,8 +13,7 @@ Implemented in rails and javascript, with react and sidekiq, and using MapBox an
 + bundle install
 + git submodule init
 + git submodule update --remote
-+ rake db:create
-+ rake db:migrate
++ rake db:setup
 + rails s
 
 ## Links
