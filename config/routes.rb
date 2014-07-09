@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post 'move/create'
   post '/chat', to: 'index#chat'
 
-  devise_for :users, :controllers => {sessions: 'sessions'}
+  devise_for :users
   root to: "static#app"
 
 end
