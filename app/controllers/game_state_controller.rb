@@ -1,8 +1,8 @@
 require 'skirmish/game_setup'
 
 class GameStateController < ApplicationController
-
-  before_filter :authenticate_user!
+  # TODO: fix hack (allowing unauthed users to process turns)
+  before_filter :authenticate_user!, except: :process_turn
 
   def show
     if current_user.is_in_a_game?
@@ -18,6 +18,12 @@ class GameStateController < ApplicationController
     else
       render json: Skirmish::Game.join_new_game(current_user)
     end
+  end
+
+  def process_turn
+    Skirmish::Game.process_turn(Skirmish::Turn.last)
+
+    render json: { message: 'hopefully processed turn' }
   end
 
 end
