@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'game_state/process_turn'
   get 'game_state/show'
   get 'game_state/new'
   get '/current_player_id', to: 'index#current_player_id'

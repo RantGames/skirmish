@@ -20,4 +20,10 @@ class GameStateController < ApplicationController
     end
   end
 
+  def process_turn
+    Skirmish::Game.process_turn(Skirmish::Turn.last)
+
+    render json: { message: 'hopefully processed turn' }
+  end
+
 end

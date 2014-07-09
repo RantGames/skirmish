@@ -174,6 +174,16 @@ RSpec.describe GameStateController, :type => :controller do
         expect(response).to be_forbidden
       end
     end
+
+    describe 'GET process_turn', focus: true do
+      let(:turn) { double :turn }
+      it "causes the last game's turn to process" do
+        allow(Skirmish::Turn).to receive(:last).and_return(turn)
+        expect(Skirmish::Game).to receive(:process_turn).with(turn)
+
+        get "process_turn"
+      end
+    end
   end
 
 end
